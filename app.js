@@ -20,77 +20,15 @@ document.addEventListener("DOMContentLoaded", () => {
   // ------------------------
   // MODELO DE COMERCIOS
   // ------------------------
-  const comercios = [
-    {
-      id: 1,
-      nombre: "Sandwichería Don Pepe",
-      rubro: "gastronomia",
-      tipoOperacion: "pedido",
-      descripcion: "Hamburguesas caseras y lomitos",
-      abierto: true,
-      permiteDelivery: true,
-      whatsapp: "5493870000000",
-      menu: [
-        { nombre: "Hamburguesa completa $3500", precio: 3500 },
-        { nombre: "Lomito especial $4200", precio: 4200 },
-        { nombre: "Papas fritas $1800", precio: 1800 }
-      ]
-    },
-    {
-      id: 2,
-      nombre: "Cerámica Amaicha",
-      rubro: "artesania",
-      tipoOperacion: "catalogo",
-      descripcion: "Piezas hechas a mano",
-      whatsapp: "5493871111111",
-      catalogo: [
-        { nombre: "Ocarina negra", precio: 6000 },
-        { nombre: "Llama cerámica", precio: 5500 }
-      ]
-    },
-    {
-      id: 3,
-      nombre: "Hotel Sol Calchaquí",
-      rubro: "hotel",
-      tipoOperacion: "reserva",
-      descripcion: "Habitaciones con vista al valle",
-      whatsapp: "5493872222222"
-    },
-    {
-      id: 4,
-      nombre: "Electricista Juan",
-      rubro: "servicios",
-      tipoOperacion: "contacto",
-      descripcion: "Instalaciones y reparaciones",
-      whatsapp: "5493873333333"
-    },
-    {
-      id: 5,
-      nombre: "artesanias franccesco greco",
-      rubro: "artesania",
-      tipoOperacion: "catalogo",
-      descripcion: "Piezas hechas a mano",
-      whatsapp: "5493868460617",
-      catalogo: [
-        { nombre: "Ocarina negra", precio: 6000 },
-        { nombre: "Llama cerámica", precio: 5500 },
-        { nombre: "Ocarina negra ", precio: 8000 },
-        { nombre: "maceta pintada a mano ", precio: 8000 },
-        { nombre: "chock caracoles buzios", precio: 6000 },
-      ]
-    },
-    {
+  let comercios = [];
 
-      id: 3,
-      nombre: "Hotel san jorge",
-      rubro: "hotel",
-      tipoOperacion: "reserva",
-      descripcion: "Habitaciones en pleno centro de cafayate",
-      whatsapp: "5493872222222"
-
-    },
-  ];
-
+fetch("comercios.json")
+  .then(res => res.json())
+  .then(data => {
+    comercios = data;
+    renderComercios(comercios); // función que ya tengas para mostrar los comercios
+  })
+  .catch(err => console.error("Error cargando comercios:", err));
   // ------------------------
   // RENDER GENERAL
   // ------------------------
