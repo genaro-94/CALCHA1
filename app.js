@@ -40,7 +40,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // ------------------------
   function renderHome() {
     app.innerHTML = `
-      <h2>🌵 CALCHA</h2>
+      <h1>
+  <img src="images/logo.png" alt="Logo Calcha" style="width:32px; height:32px; vertical-align:middle; margin-right:8px;">
+  CALCHA
+</h1>
       <p>El mercado local en tu mano</p>
       <button id="btn-rubros">☰</button>
       ${
