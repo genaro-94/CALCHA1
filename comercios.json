@@ -13,7 +13,7 @@
       { "nombre": "Papas fritas", "precio": 400 },
       { "nombre": "Gaseosa 500ml", "precio": 250 }
     ],
-    "galeria": [],
+    "galeria": [images/harry.jpeg],
     "whatsapp": "3874000001",
     "estado": "activo",
     "destacado": true
@@ -31,7 +31,7 @@
       { "nombre": "Facturas surtidas", "precio": 200 },
       { "nombre": "Tarta de frutas", "precio": 350 }
     ],
-    "galeria": [],
+    "galeria": [images/harry.jpeg],
     "whatsapp": "3874000002",
     "estado": "activo",
     "destacado": false
@@ -49,7 +49,7 @@
       { "nombre": "Taladro eléctrico", "precio": 5500 },
       { "nombre": "Clavos x 1kg", "precio": 450 }
     ],
-    "galeria": [],
+    "galeria": [images/harry.jpeg],
     "whatsapp": "3874000003",
     "estado": "activo",
     "destacado": false
