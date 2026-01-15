@@ -39,17 +39,16 @@ document.addEventListener("DOMContentLoaded", () => {
   // HOME
   // ------------------------
   function renderHome() {
-    app.innerHTML = `
-      <h1>
-  <img src="images/Logo.png" alt="Logo Calcha" style="width:32px; height:32px; vertical-align:middle; margin-right:8px;">
-  CALCHA
-</h1>
-      <p>El mercado local en tu mano</p>
-      <button id="btn-rubros">☰</button>
-      ${
-        menuRubrosAbierto
-          ? `
-          <div class="menu-rubros">
+  app.innerHTML = `
+    <h1>
+      <img src="images/Logo.png" alt="Logo Calcha" style="width:32px; height:32px; vertical-align:middle; margin-right:8px;">
+      CALCHA
+    </h1>
+    <p>El mercado local en tu mano</p>
+    <button id="btn-rubros">☰</button>
+    ${
+      menuRubrosAbierto
+        ? `<div class="menu-rubros">
             <button data-rubro="todos">Todos</button>
             <button data-rubro="gastronomía">🍔 Gastronomía</button>
             <button data-rubro="artesanía">🏺 Artesanía</button>
@@ -58,12 +57,12 @@ document.addEventListener("DOMContentLoaded", () => {
             <hr>
             <button id="btn-comercio">➕ Sumá tu comercio</button>
             <button id="btn-info">ℹ️ ¿Qué es Calcha?</button>
-          </div>
-          `
-          : ""
-      }
-      <div id="lista-comercios"></div>
-    `;
+          </div>`
+        : ''
+    }
+    <div id="lista-comercios"></div>
+  `;
+}
 
     // Toggle rubros
     document.getElementById("btn-rubros").onclick = () => {
