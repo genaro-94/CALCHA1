@@ -368,52 +368,57 @@ document.addEventListener("DOMContentLoaded", () => {
   // NUEVAS VISTAS
   // ------------------------
   function renderReserva() {
-    if (!comercioActivo) return renderHome();
+  if (!comercioActivo) return renderHome();
 
-    const urlReserva = comercioActivo.urlReserva || `https://wa.me/54${comercioActivo.whatsapp}?text=${encodeURIComponent("Hola, quiero reservar")}`;
+  const urlReserva = comercioActivo.urlReserva || 
+    `https://wa.me/54${comercioActivo.whatsapp}?text=${encodeURIComponent("Hola, quiero reservar")}`;
 
-    app.innerHTML = `
-      <button class="btn-volver">← Volver</button>
-      <img src="${comercioActivo.imagen}" class="comercio-img">
-      <h2>${comercioActivo.nombre}</h2>
-      <p>${comercioActivo.descripcion}</p>
+  app.innerHTML = `
+    <button class="btn-volver">← Volver</button>
+    <img src="${comercioActivo.imagen}" class="comercio-img">
+    <h2>${comercioActivo.nombre}</h2>
+    <p>${comercioActivo.descripcion}</p>
 
-      ${
-        comercioActivo.galeria && comercioActivo.galeria.length > 0
-          ? `<div class="galeria-comercio">
-              ${comercioActivo.galeria.map(img => `<img src="${img}" class="galeria-img">`).join("")}
-            </div>`
-          : ""
-      }
+    ${
+      comercioActivo.galeria && comercioActivo.galeria.length > 0
+        ? `<div class="galeria-comercio">
+            ${comercioActivo.galeria
+              .map(img => `<img src="${img}" class="galeria-img" onclick="abrirLightbox('${img}')">`)
+              .join("")}
+          </div>`
+        : ""
+    }
 
-      <button onclick="window.open('${urlReserva}','_blank')">📅 Reservar</button>
-      <button onclick="window.open('https://wa.me/54${comercioActivo.whatsapp}','_blank')">💬 Contactar</button>
-    `;
+    <button onclick="window.open('${urlReserva}','_blank')">📅 Reservar</button>
+    <button onclick="window.open('https://wa.me/54${comercioActivo.whatsapp}','_blank')">💬 Contactar</button>
+  `;
 
-    document.querySelector(".btn-volver").onclick = () => history.back();
-  }
+  document.querySelector(".btn-volver").onclick = () => history.back();
+}
 
   function renderInfoComercio() {
-    if (!comercioActivo) return renderHome();
+  if (!comercioActivo) return renderHome();
 
-    app.innerHTML = `
-      <button class="btn-volver">← Volver</button>
-      <img src="${comercioActivo.imagen}" class="comercio-img">
-      <h2>${comercioActivo.nombre}</h2>
-      <p>${comercioActivo.descripcion}</p>
+  app.innerHTML = `
+    <button class="btn-volver">← Volver</button>
+    <img src="${comercioActivo.imagen}" class="comercio-img">
+    <h2>${comercioActivo.nombre}</h2>
+    <p>${comercioActivo.descripcion}</p>
 
-      ${
-        comercioActivo.galeria && comercioActivo.galeria.length > 0
-          ? `<div class="galeria-comercio">
-              ${comercioActivo.galeria.map(img => `<img src="${img}" class="galeria-img">`).join("")}
-            </div>`
-          : ""
-      }
+    ${
+      comercioActivo.galeria && comercioActivo.galeria.length > 0
+        ? `<div class="galeria-comercio">
+            ${comercioActivo.galeria
+              .map(img => `<img src="${img}" class="galeria-img" onclick="abrirLightbox('${img}')">`)
+              .join("")}
+          </div>`
+        : ""
+    }
 
-      <button onclick="window.open('https://wa.me/54${comercioActivo.whatsapp}','_blank')">💬 Contactar</button>
-    `;
+    <button onclick="window.open('https://wa.me/54${comercioActivo.whatsapp}','_blank')">💬 Contactar</button>
+  `;
 
-    document.querySelector(".btn-volver").onclick = () => history.back();
-  }
+  document.querySelector(".btn-volver").onclick = () => history.back();
+}
 
 });
