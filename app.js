@@ -219,14 +219,15 @@ document.addEventListener("DOMContentLoaded", () => {
             <strong>${enCarrito.cantidad}</strong>` : ""}
             <button data-i="${i}" data-a="sumar">+</button>
           </div>
-        </div> <div id="lightbox" class="lightbox hidden">
-  <img id="lightbox-img" src="" alt="">
-</div>`;
+       `;
     });
 
     const total = carrito.reduce((s, p) => s + p.precio * p.cantidad, 0);
 
     app.innerHTML = `
+    <div id="lightbox" class="lightbox hidden">
+  <img id="lightbox-img" src="" alt="">
+</div>
   <button class="btn-volver">← Volver</button>
 
   <img src="${comercioActivo.imagen}" class="comercio-img">
