@@ -5,7 +5,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const app = document.getElementById("app");
 
-  // Estados globales
   let vistaActual = "home";
   let comercioActivo = null;
   let carrito = [];
@@ -13,22 +12,15 @@ document.addEventListener("DOMContentLoaded", () => {
   let direccionEntrega = "";
   let rubroActivo = "todos";
   let menuRubrosAbierto = false;
-
-  // ------------------------
-  // CARGAR COMERCIOS DESDE JSON
-  // ------------------------
   let comercios = [];
+
   fetch("comercios.json")
     .then(res => res.json())
     .then(data => {
       comercios = data;
       renderApp();
-    })
-    .catch(err => console.error("Error cargando comercios:", err));
+    });
 
-  // ------------------------
-  // RENDER GENERAL
-  // ------------------------
   function renderApp() {
     if (vistaActual === "home") renderHome();
     if (vistaActual === "operacion") renderOperacion();
@@ -39,61 +31,46 @@ document.addEventListener("DOMContentLoaded", () => {
   // HOME
   // ------------------------
   function renderHome() {
-  history.replaceState({ vista: "home" }, "", "#home");
+    history.replaceState({ vista: "home" }, "", "#home");
 
-  app.innerHTML = `
-    <h1>
-      <img src="images/Logo.png" alt="Logo Calcha" style="width:32px; height:32px; vertical-align:middle; margin-right:8px;">
-      CALCHA
-    </h1>
-    <p>El mercado local en tu mano</p>
-    <button id="btn-rubros">☰</button>
-    ${
-      menuRubrosAbierto ? 
-      `<div class="menu-rubros">
-        <button data-rubro="todos">Todos</button>
-        <button data-rubro="gastronomía">🍔 Gastronomía</button>
-        <button data-rubro="artesanía">🏺 Artesanía</button>
-        <button data-rubro="hotel">🏨 Hotelería</button>
-        <button data-rubro="servicios">🛠️ Servicios</button>
-        <hr>
-        <button id="btn-comercio">➕ Sumá tu comercio</button>
-        <button id="btn-info">ℹ️ ¿Qué es Calcha?</button>
-      </div>` : ''
-    }
-    <div id="lista-comercios"></div>
-  `;
-  }
+    app.innerHTML = `
+      <h1>
+        <img src="images/Logo.png" style="width:32px;vertical-align:middle;margin-right:8px;">
+        CALCHA
+      </h1>
+      <p>El mercado local en tu mano</p>
+      <button id="btn-rubros">☰</button>
+      ${
+        menuRubrosAbierto
+          ? `<div class="menu-rubros">
+              <button data-rubro="todos">Todos</button>
+              <button data-rubro="gastronomía">🍔 Gastronomía</button>
+              <button data-rubro="artesanía">🏺 Artesanía</button>
+              <button data-rubro="hotel">🏨 Hotelería</button>
+              <button data-rubro="servicios">🛠️ Servicios</button>
+              <hr>
+              <button id="btn-info">ℹ️ ¿Qué es Calcha?</button>
+            </div>`
+          : ""
+      }
+      <div id="lista-comercios"></div>
+    `;
 
-    // Toggle rubros
     document.getElementById("btn-rubros").onclick = () => {
       menuRubrosAbierto = !menuRubrosAbierto;
       renderHome();
     };
 
-    // Botón sumar comercio
-    const btnComercio = document.getElementById("btn-comercio");
-    if (btnComercio) {
-      btnComercio.onclick = () => {
-        const mensaje = encodeURIComponent(
-          "Hola, tengo un comercio y quiero sumarme a Calcha."
-        );
-        window.open("https://wa.me/543875181644?text=" + mensaje, "_blank");
-      };
-    }
-
-    // Botón info
     const btnInfo = document.getElementById("btn-info");
     if (btnInfo) {
       btnInfo.onclick = () => {
-        menuRubrosAbierto = false;
         vistaActual = "info";
+        menuRubrosAbierto = false;
         renderApp();
       };
     }
 
-    // Filtrar rubros
-    document.querySelectorAll(".menu-rubros button[data-rubro]").forEach(btn => {
+    document.querySelectorAll("[data-rubro]").forEach(btn => {
       btn.onclick = () => {
         rubroActivo = btn.dataset.rubro;
         menuRubrosAbierto = false;
@@ -102,27 +79,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     const contenedor = document.getElementById("lista-comercios");
-    const comerciosFiltrados =
+    const filtrados =
       rubroActivo === "todos"
         ? comercios
-        : comercios.filter(c => c.rubro.toLowerCase() === rubroActivo.toLowerCase());
+        : comercios.filter(c => c.rubro === rubroActivo);
 
-    // Renderizar cards
-    comerciosFiltrados.forEach(comercio => {
+    filtrados.forEach(c => {
       const card = document.createElement("div");
       card.className = "card-comercio";
       card.innerHTML = `
-        <img src="${comercio.imagen || 'images/default-comercio.jpg'}" class="comercio-img">
-        <h3>${comercio.nombre}</h3>
-        <p>${comercio.descripcion}</p>
+        <img src="${c.imagen}">
+        <h3>${c.nombre}</h3>
+        <p>${c.descripcion}</p>
         <button>Ver</button>
       `;
       card.querySelector("button").onclick = () => {
-        comercioActivo = comercio;
-        // Asegurarse de que menu y galeria existan
-        if (!comercioActivo.menu) comercioActivo.menu = [];
-        if (!comercioActivo.galeria) comercioActivo.galeria = [];
-        resetEstados();
+        comercioActivo = c;
+        carrito = [];
+        tipoEntrega = null;
         vistaActual = "operacion";
         renderApp();
       };
@@ -131,187 +105,50 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ------------------------
-  // RENDER OPERACIÓN SEGÚN TIPO
+  // OPERACIÓN
   // ------------------------
   function renderOperacion() {
-    switch (comercioActivo.tipoOperacion) {
-      case "pedido":
-        renderPedido();
-        break;
-      case "catalogo":
-        renderCatalogo();
-        break;
-      case "reserva":
-        renderReserva();
-        break;
-      case "contacto":
-        renderContacto();
-        break;
-      default:
-        renderHome();
-    }
+    if (comercioActivo.tipoOperacion === "pedido") renderPedido();
+    else renderHome();
   }
 
   // ------------------------
   // PEDIDO
   // ------------------------
   function renderPedido() {
+    history.pushState({ vista: "pedido" }, "", "#pedido");
 
-  if (comercioActivo) {
-    history.pushState(
-      { vista: "pedido", comercioId: comercioActivo.id },
-      "",
-      "#pedido"
-    );
-  }
-
-  let menuHTML = "";
-  comercioActivo.menu.forEach((item, i) => {
-    const enCarrito = carrito.find(p => p.nombre === item.nombre);
-    menuHTML += `
-      <div class="item-menu">
-        <span>${item.nombre} - $${item.precio}</span>
-        <div style="display:flex; align-items:center; gap:6px;">
-          ${enCarrito ? `<button data-i="${i}" data-accion="restar">−</button><strong>${enCarrito.cantidad}</strong>` : ""}
-          <button data-i="${i}" data-accion="sumar">+</button>
-        </div>
-      </div>`;
-  });
-
-  // ⬇️ el resto de TU renderPedido sigue igual
-  }
-
-    // Galería segura
-    let galeriaHTML = '';
-    if (comercioActivo.galeria && comercioActivo.galeria.length) {
-      galeriaHTML = '<div class="galeria-comercio">';
-      comercioActivo.galeria.forEach(img => {
-        galeriaHTML += `<img src="${img}" alt="${comercioActivo.nombre}" class="galeria-img">`;
-      });
-      galeriaHTML += '</div>';
-    }
-
-    const total = carrito.reduce((s, i) => s + i.precio * i.cantidad, 0);
+    let menuHTML = "";
+    comercioActivo.menu.forEach((item, i) => {
+      const enCarrito = carrito.find(p => p.nombre === item.nombre);
+      menuHTML += `
+        <div class="item-menu">
+          <span>${item.nombre} - $${item.precio}</span>
+          <button data-i="${i}">+</button>
+          ${enCarrito ? `<strong>${enCarrito.cantidad}</strong>` : ""}
+        </div>`;
+    });
 
     app.innerHTML = `
       <button class="btn-volver">← Volver</button>
       <h2>${comercioActivo.nombre}</h2>
-
-      ${galeriaHTML}
-
-      <div class="entrega">
-        <button class="${tipoEntrega === "retiro" ? "activo" : ""}" id="retiro">🏪 Retiro</button>
-        ${comercioActivo.permiteDelivery ? `<button class="${tipoEntrega === "delivery" ? "activo" : ""}" id="delivery">🛵 Delivery</button>` : ""}
-      </div>
-
       <div class="menu">${menuHTML}</div>
-
-      <div class="carrito">
-        <strong>Total: $${total}</strong>
-        <button class="btn-continuar" id="continuar" ${!total || !tipoEntrega ? "disabled" : ""}>Continuar</button>
-      </div>
     `;
 
-    document.querySelector(".btn-volver").onclick = volverHome;
+    document.querySelector(".btn-volver").onclick = () => {
+      vistaActual = "home";
+      renderApp();
+    };
 
     document.querySelectorAll(".item-menu button").forEach(b => {
       b.onclick = () => {
-        const producto = comercioActivo.menu[b.dataset.i];
-        const existente = carrito.find(p => p.nombre === producto.nombre);
-        if (b.dataset.accion === "sumar") {
-          if (existente) existente.cantidad++;
-          else carrito.push({ ...producto, cantidad: 1 });
-        }
-        if (b.dataset.accion === "restar" && existente) {
-          existente.cantidad--;
-          if (existente.cantidad === 0) carrito = carrito.filter(p => p.nombre !== producto.nombre);
-        }
+        const prod = comercioActivo.menu[b.dataset.i];
+        const ex = carrito.find(p => p.nombre === prod.nombre);
+        if (ex) ex.cantidad++;
+        else carrito.push({ ...prod, cantidad: 1 });
         renderPedido();
       };
     });
-
-    document.getElementById("retiro").onclick = () => { tipoEntrega = "retiro"; renderPedido(); };
-    if (comercioActivo.permiteDelivery) document.getElementById("delivery").onclick = () => { tipoEntrega = "delivery"; renderPedido(); };
-
-    document.getElementById("continuar").onclick = renderConfirmacionPedido;
-
-    // Lightbox
-    document.querySelectorAll(".galeria-img").forEach(img => {
-      img.onclick = () => {
-        const overlay = document.createElement("div");
-        overlay.className = "overlay";
-        overlay.innerHTML = `<img src="${img.src}" class="overlay-img">`;
-        overlay.onclick = () => overlay.remove();
-        document.body.appendChild(overlay);
-      };
-    });
-  }
-
-  // ------------------------
-  // CONFIRMACIÓN PEDIDO
-  // ------------------------
-  function renderConfirmacionPedido() {
-    const total = carrito.reduce((s, i) => s + i.precio * i.cantidad, 0);
-    app.innerHTML = `
-      <button class="btn-volver">← Volver</button>
-      <h2>Confirmar pedido</h2>
-      ${carrito.map(i => `<p>${i.nombre} x${i.cantidad} - $${i.precio * i.cantidad}</p>`).join("")}
-      <p><strong>Entrega:</strong> ${tipoEntrega}</p>
-      ${tipoEntrega === "delivery" ? `<input id="direccion" placeholder="Dirección" value="${direccionEntrega}">` : ""}
-      <h3>Total: $${total}</h3>
-      <button class="btn-confirmar" id="enviar">Enviar por WhatsApp</button>
-    `;
-    document.querySelector(".btn-volver").onclick = renderPedido;
-    if (tipoEntrega === "delivery") document.getElementById("direccion").oninput = e => direccionEntrega = e.target.value;
-
-    document.getElementById("enviar").onclick = () => {
-      let msg = `🛒 Pedido - ${comercioActivo.nombre}\n\n`;
-      carrito.forEach(i => msg += `• ${i.nombre} x${i.cantidad} - $${i.precio * i.cantidad}\n`);
-      msg += `\nTotal: $${total}\nEntrega: ${tipoEntrega}`;
-      if (tipoEntrega === "delivery") msg += `\nDirección: ${direccionEntrega}`;
-      window.open(`https://wa.me/${comercioActivo.whatsapp}?text=${encodeURIComponent(msg)}`, "_blank");
-      volverHome();
-    };
-  }
-
-  // ------------------------
-  // CATÁLOGO
-  // ------------------------
-  function renderCatalogo() {
-    app.innerHTML = `
-      <button class="btn-volver">← Volver</button>
-      <h2>${comercioActivo.nombre}</h2>
-      ${comercioActivo.catalogo.map(p => `<p>${p.nombre} - $${p.precio}</p>`).join("")}
-      <button class="btn-confirmar" id="consultar">Consultar por WhatsApp</button>
-    `;
-    document.querySelector(".btn-volver").onclick = volverHome;
-    document.getElementById("consultar").onclick = () => window.open(`https://wa.me/${comercioActivo.whatsapp}`, "_blank");
-  }
-
-  // ------------------------
-  // RESERVA
-  // ------------------------
-  function renderReserva() {
-    app.innerHTML = `
-      <button class="btn-volver">← Volver</button>
-      <h2>${comercioActivo.nombre}</h2>
-      <button class="btn-confirmar" id="reservar">Consultar reserva</button>
-    `;
-    document.querySelector(".btn-volver").onclick = volverHome;
-    document.getElementById("reservar").onclick = () => window.open(`https://wa.me/${comercioActivo.whatsapp}`, "_blank");
-  }
-
-  // ------------------------
-  // CONTACTO
-  // ------------------------
-  function renderContacto() {
-    app.innerHTML = `
-      <button class="btn-volver">← Volver</button>
-      <h2>${comercioActivo.nombre}</h2>
-      <button class="btn-confirmar" id="contactar">Contactar</button>
-    `;
-    document.querySelector(".btn-volver").onclick = volverHome;
-    document.getElementById("contactar").onclick = () => window.open(`https://wa.me/${comercioActivo.whatsapp}`, "_blank");
   }
 
   // ------------------------
@@ -320,18 +157,12 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderInfo() {
     app.innerHTML = `
       <button class="btn-volver">← Volver</button>
-      <h2>🌵 ¿Qué es Calcha?</h2>
-      <p>Calcha es una plataforma que conecta a los comercios y servicios locales con las personas de la zona.</p>
-      <p>Pedí comida, encontrá artesanos, hoteles o servicios sin intermediarios ni comisiones ocultas.</p>
-      <p>Todo se gestiona directamente por WhatsApp, de forma simple y rápida.</p>
-      <p><strong>Calcha apoya lo local.</strong></p>
+      <h2>¿Qué es Calcha?</h2>
+      <p>Plataforma de comercios locales.</p>
     `;
-    document.querySelector(".btn-volver").onclick = () => { vistaActual = "home"; renderApp(); };
+    document.querySelector(".btn-volver").onclick = () => {
+      vistaActual = "home";
+      renderApp();
+    };
   }
-
-  // ------------------------
-  // HELPERS
-  // ------------------------
-  function volverHome() { resetEstados(); vistaActual = "home"; renderApp(); }
-  function resetEstados() { carrito = []; tipoEntrega = null; direccionEntrega = ""; }
 });
