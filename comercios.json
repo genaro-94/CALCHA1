@@ -10,7 +10,7 @@
     "menu": [
       { "nombre": "Hamburguesa clásica", "precio": 700 },
       { "nombre": "Lomito completo", "precio": 850 },
-      { "nombre": "Papas fritas", "images/fritas.png", "precio": 400 },
+      { "nombre": "Papas fritas", "precio": 400 },
       { "nombre": "Gaseosa 500ml", "precio": 250 }
     ],
     "galeria": ["images/fritas.png",
