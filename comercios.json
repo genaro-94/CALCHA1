@@ -13,7 +13,9 @@
       { "nombre": "Papas fritas", "precio": 400 },
       { "nombre": "Gaseosa 500ml", "precio": 250 }
     ],
-    "galeria": [],
+    "galeria": ["images/fritas.png",
+    "images/lomo.jpg",
+    "images/mila.jpeg"],
     "whatsapp": "3874000001",
     "estado": "activo",
     "destacado": true
