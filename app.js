@@ -4,7 +4,20 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   const app = document.getElementById("app");
+const WHATSAPP_ADMIN = "5493875181644";
+  function sumarMiComercio() {
+  const mensaje = encodeURIComponent(
+    "Hola 👋 Quiero sumar mi comercio a Calcha 🏔️\n\n" +
+    "Nombre del comercio:\n" +
+    "Rubro:\n" +
+    "Dirección:\n" +
+    "Teléfono:\n" +
+    "¿Delivery / Retiro?:"
+  );
 
+  const url = `https://wa.me/${WHATSAPP_ADMIN}?text=${mensaje}`;
+  window.open(url, "_blank");
+}
   let vistaActual = "home";
   let comercioActivo = null;
   let carrito = [];
