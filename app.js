@@ -141,12 +141,12 @@ function renderHome() {
     </h1>
     <p class="subtitulo">El mercado local en tu mano</p>
 
-    <!-- Botón rubros -->
+    <!-- Botón menú -->
     <button id="btn-rubros">☰</button>
 
     ${
       menuRubrosAbierto
-       ?  `<div class="acciones">
+        ? `<div class="acciones">
             <button id="btn-info" class="btn-menu">ℹ️ ¿Qué es Calcha?</button>
             <button id="btn-sumar-comercio" class="btn-menu">➕ Sumar mi comercio</button>
           </div>`
@@ -155,54 +155,62 @@ function renderHome() {
 
     <!-- Barra de búsqueda -->
     <div class="buscador">
-      <input type="text" id="input-busqueda" placeholder="🔍 Buscar comercio..." autocomplete="off">
+      <input
+        type="text"
+        id="input-busqueda"
+        placeholder="🔍 Buscar comercio..."
+        autocomplete="off"
+      >
       <div id="resultados-busqueda" class="resultados-scroll"></div>
     </div>
-<section class="rubros-grid">
-  <button class="rubro-btn" data-rubro="gastronomia">
-    <span class="icon">🍽️</span>
-    <span class="text">Gastronomía</span>
-  </button>
 
-  <button class="rubro-btn" data-rubro="turismo">
-    <span class="icon">🏨</span>
-    <span class="text">Turismo</span>
-  </button>
+    <!-- Grilla de rubros -->
+    <section class="rubros-grid">
+      <button class="rubro-btn" data-rubro="gastronomia">
+        <span class="icon">🍽️</span>
+        <span class="text">Gastronomía</span>
+      </button>
 
-  <button class="rubro-btn" data-rubro="almacen">
-    <span class="icon">🛒</span>
-    <span class="text">Almacén</span>
-  </button>
+      <button class="rubro-btn" data-rubro="turismo">
+        <span class="icon">🏨</span>
+        <span class="text">Turismo</span>
+      </button>
 
-  <button class="rubro-btn" data-rubro="servicios">
-    <span class="icon">🛠️</span>
-    <span class="text">Servicios</span>
-  </button>
+      <button class="rubro-btn" data-rubro="almacen">
+        <span class="icon">🛒</span>
+        <span class="text">Almacén</span>
+      </button>
 
-  <button class="rubro-btn" data-rubro="ropa">
-    <span class="icon">🛍️</span>
-    <span class="text">Ropa</span>
-  </button>
+      <button class="rubro-btn" data-rubro="servicios">
+        <span class="icon">🛠️</span>
+        <span class="text">Servicios</span>
+      </button>
 
-  <button class="rubro-btn" data-rubro="artesanias">
-    <span class="icon">🎨</span>
-    <span class="text">Artesanías</span>
-  </button>
-</section>
+      <button class="rubro-btn" data-rubro="ropa">
+        <span class="icon">🛍️</span>
+        <span class="text">Ropa</span>
+      </button>
+
+      <button class="rubro-btn" data-rubro="artesanias">
+        <span class="icon">🎨</span>
+        <span class="text">Artesanías</span>
+      </button>
+    </section>
+
     <!-- Lista de comercios -->
     <div id="lista-comercios"></div>
   `;
 
   // ------------------------
-  // Botones generales del home
+  // Menú ☰
   // ------------------------
-  const btnSumar = document.getElementById("btn-sumar-comercio");
-  if (btnSumar) btnSumar.onclick = sumarMiComercio;
-
   document.getElementById("btn-rubros").onclick = () => {
     menuRubrosAbierto = !menuRubrosAbierto;
     renderHome();
   };
+
+  const btnSumar = document.getElementById("btn-sumar-comercio");
+  if (btnSumar) btnSumar.onclick = sumarMiComercio;
 
   const btnInfo = document.getElementById("btn-info");
   if (btnInfo) {
@@ -213,10 +221,12 @@ function renderHome() {
     };
   }
 
-  document.querySelectorAll("[data-rubro]").forEach(b => {
+  // ------------------------
+  // Rubros (solo grilla del home)
+  // ------------------------
+  document.querySelectorAll(".rubro-btn").forEach(b => {
     b.onclick = () => {
       rubroActivo = b.dataset.rubro;
-      menuRubrosAbierto = false;
       renderHome();
     };
   });
@@ -225,9 +235,11 @@ function renderHome() {
   // Renderizar lista de comercios
   // ------------------------
   const lista = document.getElementById("lista-comercios");
-  const filtrados = rubroActivo === "todos"
-    ? comercios
-    : comercios.filter(c => c.rubro === rubroActivo);
+
+  const filtrados =
+    rubroActivo === "todos"
+      ? comercios
+      : comercios.filter(c => c.rubro === rubroActivo);
 
   filtrados.forEach(c => {
     const card = document.createElement("div");
@@ -245,7 +257,7 @@ function renderHome() {
       tipoEntrega = null;
       direccionEntrega = "";
 
-      switch(c.tipoOperacion) {
+      switch (c.tipoOperacion) {
         case "pedido":
           vistaActual = "pedido";
           history.pushState({ vista: "pedido", comercioId: c.id }, "", "#pedido");
@@ -273,7 +285,7 @@ function renderHome() {
   });
 
   // ------------------------
-  // Autocomplete / Búsqueda con scroll tipo TikTok/Instagram
+  // Búsqueda / Autocomplete
   // ------------------------
   const inputBusqueda = document.getElementById("input-busqueda");
   const resultados = document.getElementById("resultados-busqueda");
@@ -285,24 +297,31 @@ function renderHome() {
 
       if (texto === "") return;
 
-      const filtrados = comercios.filter(c =>
+      const encontrados = comercios.filter(c =>
         c.nombre.toLowerCase().includes(texto) ||
         c.descripcion.toLowerCase().includes(texto) ||
         c.rubro.toLowerCase().includes(texto)
       );
 
-      filtrados.forEach(c => {
+      encontrados.forEach(c => {
         const div = document.createElement("div");
         const regex = new RegExp(`(${texto})`, "gi");
-        div.innerHTML = `<strong>${c.nombre.replace(regex, "<span class='resultado-highlight'>$1</span>")}</strong> <small>${c.rubro}</small>`;
+        div.innerHTML = `
+          <strong>${c.nombre.replace(regex, "<span class='resultado-highlight'>$1</span>")}</strong>
+          <small>${c.rubro}</small>
+        `;
         div.className = "resultado-item";
         div.onclick = () => {
           comercioActivo = c;
           carrito = [];
           tipoEntrega = null;
           direccionEntrega = "";
-          vistaActual = c.tipoOperacion === "reserva" ? "reserva" :
-                       c.tipoOperacion === "info" ? "info" : "pedido";
+          vistaActual =
+            c.tipoOperacion === "reserva"
+              ? "reserva"
+              : c.tipoOperacion === "info"
+              ? "info"
+              : "pedido";
           history.pushState({ vista: vistaActual, comercioId: c.id }, "", `#${vistaActual}`);
           renderApp();
         };
@@ -310,14 +329,14 @@ function renderHome() {
       });
     };
 
-    // Cerrar resultados si haces click fuera
     document.addEventListener("click", e => {
       if (!e.target.closest(".buscador")) {
         resultados.innerHTML = "";
       }
     });
   }
-}
+    }
+
 
 
   // ------------------------
