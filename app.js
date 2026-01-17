@@ -145,20 +145,14 @@ function renderHome() {
     <button id="btn-rubros">☰</button>
 
     ${
-      menuRubrosAbierto
-        ? `<div class="menu-rubros">
-            <button data-rubro="todos">Todos</button>
-            <button data-rubro="gastronomía">🍔 Gastronomía</button>
-            <button data-rubro="artesanía">🏺 Artesanía</button>
-            <button data-rubro="turismo">⛰️ Turismo</button>
-            <button data-rubro="servicios">🛠️ Servicios</button>
-          </div>
-
-          <div class="acciones">
-            <button id="btn-info" class="btn-menu">ℹ️ ¿Qué es Calcha?</button>
-            <button id="btn-sumar-comercio" class="btn-menu">➕ Sumar mi comercio</button>
-          </div>`
-        : ""
+  menuRubrosAbierto
+    ? `
+      <div class="acciones">
+        <button id="btn-info" class="btn-menu">ℹ️ ¿Qué es Calcha?</button>
+        <button id="btn-sumar-comercio" class="btn-menu">➕ Sumar mi comercio</button>
+      </div>
+    `
+    : ""
     }
 
     <!-- Barra de búsqueda -->
