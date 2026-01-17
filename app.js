@@ -160,9 +160,11 @@ window.addEventListener("popstate", e => {
         : ""
     }
 
-    <!-- Barra de búsqueda -->
-    <input type="text" id="buscador" placeholder="🔍 Buscar comercio..." style="margin:12px 0; padding:10px; border-radius:12px; border:1.5px solid #d67d3e; width:100%; font-size:14px;">
-
+<!-- Barra de búsqueda nueva -->
+<div class="buscador">
+  <input type="text" id="input-busqueda" placeholder="🔍 Buscar comercio..." autocomplete="off">
+  <div id="resultados-busqueda" class="resultados"></div>
+</div>
     <div id="lista-comercios"></div>
   `;
 
