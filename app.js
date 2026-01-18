@@ -65,11 +65,8 @@ function cerrarLightbox() {
   const lightbox = document.getElementById("lightbox");
   if (!lightbox.classList.contains("hidden")) {
     lightbox.classList.add("hidden");
-    // Volvemos atrás en el historial solo si fue pushState del lightbox
-    if (history.state && history.state.lightbox) {
-      history.back();
-    }
   }
+}
 }
 
 // Cerrar al tocar afuera
