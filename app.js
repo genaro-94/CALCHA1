@@ -65,8 +65,11 @@ function cerrarLightbox() {
   const lightbox = document.getElementById("lightbox");
   if (!lightbox.classList.contains("hidden")) {
     lightbox.classList.add("hidden");
+    // Volvemos atrás en el historial solo si fue pushState del lightbox
+    if (history.state && history.state.lightbox) {
+      history.back();
+    }
   }
-}
 }
 
 // Cerrar al tocar afuera
@@ -75,15 +78,19 @@ document.addEventListener("click", e => {
     cerrarLightbox();
   }
 });
-
 window.addEventListener("popstate", (e) => {
-  // Si hay lightbox abierto y el estado NO es lightbox
-  const lightbox = document.getElementById("lightbox");
+  const estado = e.state || {};
 
-  if (lightbox && !lightbox.classList.contains("hidden")) {
-    lightbox.classList.add("hidden");
-    return; // ⛔ NO renderizar la app
+  vistaActual = estado.vista || "home";
+  rubroActivo = estado.rubro || "todos";
+
+  if (estado.comercioId) {
+    comercioActivo = comercios.find(c => c.id === estado.comercioId);
+  } else {
+    comercioActivo = null;
   }
+
+  renderApp();
 });
   // ------------------------
   // HISTORIAL
