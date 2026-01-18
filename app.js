@@ -274,6 +274,7 @@ function renderHome() {
 </section>
     <!-- Lista de comercios -->
     <div id="lista-comercios"></div>
+    <div id="delivery-section"></div>
   `;
 
   // ------------------------
