@@ -342,20 +342,20 @@ function irARubro(rubro) {
   function renderPedido() {
     if (!comercioActivo) return renderHome();
 
-    let menuHTML = "";
-    comercioActivo.menu.forEach((item, i) => {
-      const enCarrito = carrito.find(p => p.nombre === item.nombre);
-      menuHTML += `
-        <div class="item-menu">
-          <span>${item.nombre} - $${item.precio}</span>
-          <div>
-            ${enCarrito ? `<button data-i="${i}" data-a="restar">−</button>
-            <strong>${enCarrito.cantidad}</strong>` : ""}
-            <button data-i="${i}" data-a="sumar">+</button>
-          </div>
-        </div>
-      `;
-    });
+  let menuHTML = "";
+comercioActivo.menu.forEach((item, i) => {
+  const enCarrito = carrito.find(p => p.nombre === item.nombre);
+  menuHTML += `
+    <div class="item-menu">
+      <span>${item.nombre} - $${item.precio}</span>
+      <div>
+        ${enCarrito ? `<button data-i="${i}" data-a="restar">−</button>
+        <strong>${enCarrito.cantidad}</strong>` : ""}
+        <button data-i="${i}" data-a="sumar">+</button>
+      </div>
+    </div>
+  `;
+});
 
     const total = carrito.reduce((s, p) => s + p.precio * p.cantidad, 0);
 
