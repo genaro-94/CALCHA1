@@ -1,11 +1,11 @@
-// Import the functions you need from the SDKs you need
+// ------------------------
+// FIREBASE CONFIG
+// ------------------------
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getDatabase, ref, get, child, set, update, onValue } from "firebase/database";
 
 // Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyATdbRLpuMDMj57qtch_B1kZg3sT4jUlUo",
   authDomain: "calcha-delivery.firebaseapp.com",
@@ -17,21 +17,23 @@ const firebaseConfig = {
   measurementId: "G-V8F3C7F5JJ"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+// ------------------------
+// INITIALIZE FIREBASE
+// ------------------------
+const firebaseApp = initializeApp(firebaseConfig); // renombrada para no chocar con el div "app"
+const analytics = getAnalytics(firebaseApp);
+const database = getDatabase(firebaseApp);
+
 // ------------------------
 // DELIVERYs - Firebase
 // ------------------------
-import { getDatabase, ref, get, child, set, update, onValue } from "firebase/database";
-const database = getDatabase(app);
 
 // Función para obtener todos los deliverys
 async function cargarDeliverys() {
   const dbRef = ref(database);
   const snapshot = await get(child(dbRef, 'deliverys'));
   if (snapshot.exists()) {
-    return snapshot.val(); // devuelve un objeto con todos los deliverys
+    return snapshot.val();
   } else {
     return {};
   }
@@ -48,7 +50,7 @@ function actualizarDisponibilidad(idDelivery, disponible) {
 // Función para renderizar lista de deliverys en la app
 async function renderDeliverys() {
   const deliverys = await cargarDeliverys();
-  const appSection = document.getElementById("app"); // podés crear otra sección si querés
+  const appSection = document.getElementById("app"); // mantenemos la misma sección, podés cambiarla si querés
 
   let html = `<h2>Repartidores Disponibles</h2><div class="delivery-list">`;
 
@@ -73,17 +75,18 @@ async function renderDeliverys() {
       const id = btn.dataset.id;
       const actualmente = deliverys[id].disponible;
       actualizarDisponibilidad(id, !actualmente);
-      renderDeliverys(); // recarga la lista
+      // No recargamos inmediatamente, dejamos que onValue actualice automáticamente
     };
   });
 }
 
-// Opcional: escuchar cambios en tiempo real
+// Escuchar cambios en tiempo real
 const deliveryRef = ref(database, 'deliverys');
 onValue(deliveryRef, snapshot => {
-  // Esto se ejecuta cada vez que cambie algo en deliverys
   console.log("Deliverys actualizados", snapshot.val());
+  renderDeliverys(); // actualiza la UI automáticamente
 });
+
 // =========================
 // CALCHA - MOTOR COMPLETO (RESTAURADO)
 // =========================
@@ -119,6 +122,18 @@ document.addEventListener("DOMContentLoaded", () => {
   let rubroActivo = "todos";
   let menuRubrosAbierto = false;
   let comercios = [];
+
+  // ------------------------
+  // LIGHTBOX GLOBAL
+  // ------------------------
+  const lightbox = document.createElement("div");
+  lightbox.id = "lightbox";
+  lightbox.className = "lightbox hidden";
+  const lightboxImg = document.createElement("img");
+  lightboxImg.id = "lightbox-img";
+  lightbox.appendChild(lightboxImg);
+  document.body.appendChild(lightbox);
+
 
   // ------------------------
   // LIGHTBOX GLOBAL
