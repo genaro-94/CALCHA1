@@ -1,3 +1,89 @@
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyATdbRLpuMDMj57qtch_B1kZg3sT4jUlUo",
+  authDomain: "calcha-delivery.firebaseapp.com",
+  databaseURL: "https://calcha-delivery-default-rtdb.firebaseio.com",
+  projectId: "calcha-delivery",
+  storageBucket: "calcha-delivery.firebasestorage.app",
+  messagingSenderId: "272890382291",
+  appId: "1:272890382291:web:558aa7c5ac43e914bf1126",
+  measurementId: "G-V8F3C7F5JJ"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+// ------------------------
+// DELIVERYs - Firebase
+// ------------------------
+import { getDatabase, ref, get, child, set, update, onValue } from "firebase/database";
+const database = getDatabase(app);
+
+// Función para obtener todos los deliverys
+async function cargarDeliverys() {
+  const dbRef = ref(database);
+  const snapshot = await get(child(dbRef, 'deliverys'));
+  if (snapshot.exists()) {
+    return snapshot.val(); // devuelve un objeto con todos los deliverys
+  } else {
+    return {};
+  }
+}
+
+// Función para actualizar disponibilidad
+function actualizarDisponibilidad(idDelivery, disponible) {
+  const deliveryRef = ref(database, 'deliverys/' + idDelivery);
+  update(deliveryRef, { disponible: disponible })
+    .then(() => console.log(`Delivery ${idDelivery} actualizado: ${disponible}`))
+    .catch(err => console.error(err));
+}
+
+// Función para renderizar lista de deliverys en la app
+async function renderDeliverys() {
+  const deliverys = await cargarDeliverys();
+  const appSection = document.getElementById("app"); // podés crear otra sección si querés
+
+  let html = `<h2>Repartidores Disponibles</h2><div class="delivery-list">`;
+
+  Object.keys(deliverys).forEach(id => {
+    const d = deliverys[id];
+    html += `
+      <div class="delivery-item">
+        <strong>${d.nombre}</strong> - ${d.telefono} 
+        <button data-id="${id}" class="btn-disponible">
+          ${d.disponible ? "✅ Disponible" : "❌ No disponible"}
+        </button>
+      </div>
+    `;
+  });
+
+  html += `</div>`;
+  appSection.innerHTML = html;
+
+  // Agregar evento para cada botón
+  document.querySelectorAll(".btn-disponible").forEach(btn => {
+    btn.onclick = () => {
+      const id = btn.dataset.id;
+      const actualmente = deliverys[id].disponible;
+      actualizarDisponibilidad(id, !actualmente);
+      renderDeliverys(); // recarga la lista
+    };
+  });
+}
+
+// Opcional: escuchar cambios en tiempo real
+const deliveryRef = ref(database, 'deliverys');
+onValue(deliveryRef, snapshot => {
+  // Esto se ejecuta cada vez que cambie algo en deliverys
+  console.log("Deliverys actualizados", snapshot.val());
+});
 // =========================
 // CALCHA - MOTOR COMPLETO (RESTAURADO)
 // =========================
