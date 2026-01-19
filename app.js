@@ -1,4 +1,3 @@
-js calcha
 // =========================
 // CALCHA - MOTOR COMPLETO (RESTAURADO)
 // =========================
