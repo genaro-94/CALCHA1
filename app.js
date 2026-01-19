@@ -304,12 +304,12 @@ const filtrados = obtenerComerciosVisibles();
       resultados.innerHTML = "";
 
       if (texto === "") return;
-
-      const filtrados = comercios.filter(c =>
-        c.nombre.toLowerCase().includes(texto) ||
-        c.descripcion.toLowerCase().includes(texto) ||
-        c.rubro.toLowerCase().includes(texto)
-      );
+     const lista = document.getElementById("lista-comercios");
+     lista.innerHTML = "";
+      const filtrados = obtenerComerciosVisibles().filter(c =>
+  c.nombre.toLowerCase().includes(texto) ||
+  c.descripcion.toLowerCase().includes(texto)
+);
 
       filtrados.forEach(c => {
         const div = document.createElement("div");
