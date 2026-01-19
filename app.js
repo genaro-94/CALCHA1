@@ -247,9 +247,7 @@ function renderHome() {
   // ------------------------
   // Renderizar lista de comercios
   // ------------------------
-const filtrados = !rubroActivo || rubroActivo === "todos"
-  ? comercios
-  : comercios.filter(c => c.rubro === rubroActivo);
+const filtrados = obtenerComerciosVisibles();
 
   filtrados.forEach(c => {
     const card = document.createElement("div");
