@@ -208,7 +208,7 @@ function renderHome() {
     <!-- Lista de comercios -->
     <div id="lista-comercios"></div>
   `;
-
+renderSelectorUbicacion();
   // ------------------------
   // Botones generales del home
   // ------------------------
