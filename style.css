@@ -597,3 +597,136 @@ input:focus {
   padding: 4px 12px;
   border-radius: 12px;
 }
+/* =========================
+   BUSCADOR
+========================= */
+
+.buscador {
+  position: relative;
+  margin: 10px;
+}
+
+.buscador input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
+
+/* Resultados del buscador */
+.resultados-busqueda {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  max-height: 260px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.resultado-item {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.resultado-item:last-child {
+  border-bottom: none;
+}
+
+.resultado-item:hover {
+  background: #f4f4f4;
+}
+
+.resultado-item strong {
+  display: block;
+  font-size: 15px;
+}
+
+.resultado-item span {
+  font-size: 13px;
+  color: #777;
+}
+/* =========================
+   RUBROS VISIBLES HOME
+========================= */
+
+.rubros-home {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 10px;
+}
+
+.rubro-btn {
+  min-width: 110px;
+  padding: 10px;
+  background: #f4e8d8;
+  border-radius: 14px;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid #e0d2bf;
+  flex-shrink: 0;
+}
+
+.rubro-btn img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  margin-bottom: 6px;
+}
+
+.rubro-btn span {
+  display: block;
+  font-size: 13px;
+  font-weight: bold;
+  color: #6b3f1d;
+}
+
+.rubro-btn.activo {
+  background: #8b5a2b;
+}
+
+.rubro-btn.activo span {
+  color: #fff;
+}
+/* =========================
+   COMERCIOS
+========================= */
+
+.lista-comercios {
+  padding: 10px;
+}
+
+.card-comercio {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  margin-bottom: 14px;
+  overflow: hidden;
+}
+
+.card-comercio img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.card-comercio .info {
+  padding: 12px;
+}
+
+.card-comercio h3 {
+  margin: 0 0 4px;
+  font-size: 17px;
+}
+
+.card-comercio p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
