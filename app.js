@@ -168,9 +168,8 @@ function volverHome() {
 
 
   // ------------------------
-  // HOME
-  // ------------------------
-
+// HOME
+// ------------------------
 function renderHome() {
   vistaActual = "home";
   history.replaceState({ vista: "home" }, "", "#home");
@@ -186,112 +185,108 @@ function renderHome() {
     <button id="btn-rubros">☰</button>
 
     ${
-  menuRubrosAbierto
-    ? `
-      <div class="acciones">
-        <button id="btn-info" class="btn-menu">ℹ️ ¿Qué es Calcha?</button>
-        <button id="btn-sumar-comercio" class="btn-menu">➕ Sumar mi comercio</button>
-      </div>
-    `
-    : ""
+      menuRubrosAbierto
+        ? `
+          <div class="acciones">
+            <button id="btn-info" class="btn-menu">ℹ️ ¿Qué es Calcha?</button>
+            <button id="btn-sumar-comercio" class="btn-menu">➕ Sumar mi comercio</button>
+          </div>
+        `
+        : ""
     }
-    `;
-  // Botón "Sumar mi comercio"
-const btnSumar = document.getElementById("btn-sumar-comercio");
-if (btnSumar) btnSumar.onclick = sumarMiComercio;
 
-// Botón "¿Qué es Calcha?"
-const btnInfo = document.getElementById("btn-info");
-if (btnInfo) {
-  btnInfo.onclick = () => {
-    vistaActual = "info"; // cambia la vista
-    history.pushState({ vista: "info" }, "", "#info"); // actualiza el historial
-    renderInfo(); // renderiza la vista info
-  };
-}
- <div id="selector-ubicacion"></div>
+    <div id="selector-ubicacion"></div>
+
     <!-- Barra de búsqueda -->
     <div class="buscador">
       <input type="text" id="input-busqueda" placeholder="🔍 Buscar comercio..." autocomplete="off">
       <div id="resultados-busqueda" class="resultados-scroll"></div>
     </div>
-<section class="rubros-grid">
-  <button class="rubro-btn" data-rubro="gastronomia">
-    <span class="icon">🍽️</span>
-    <span class="text">Gastronomía</span>
-  </button>
 
-  <button class="rubro-btn" data-rubro="turismo">
-    <span class="icon">🏨⛰️</span>
-    <span class="text">Turismo</span>
-  </button>
+    <section class="rubros-grid">
+      <button class="rubro-btn" data-rubro="gastronomia">
+        <span class="icon">🍽️</span>
+        <span class="text">Gastronomía</span>
+      </button>
 
-  <button class="rubro-btn" data-rubro="almacen">
-    <span class="icon">🛒</span>
-    <span class="text">Almacén</span>
-  </button>
+      <button class="rubro-btn" data-rubro="turismo">
+        <span class="icon">🏨⛰️</span>
+        <span class="text">Turismo</span>
+      </button>
 
-  <button class="rubro-btn" data-rubro="servicios">
-    <span class="icon">🛠️</span>
-    <span class="text">Servicios</span>
-  </button>
+      <button class="rubro-btn" data-rubro="almacen">
+        <span class="icon">🛒</span>
+        <span class="text">Almacén</span>
+      </button>
 
-  <button class="rubro-btn" data-rubro="ropa">
-    <span class="icon">🛍️</span>
-    <span class="text">Ropa</span>
-  </button>
+      <button class="rubro-btn" data-rubro="servicios">
+        <span class="icon">🛠️</span>
+        <span class="text">Servicios</span>
+      </button>
 
-  <button class="rubro-btn" data-rubro="artesanias">
-    <span class="icon">🎨</span>
-    <span class="text">Artesanías</span>
-  </button>
-</section>
+      <button class="rubro-btn" data-rubro="ropa">
+        <span class="icon">🛍️</span>
+        <span class="text">Ropa</span>
+      </button>
+
+      <button class="rubro-btn" data-rubro="artesanias">
+        <span class="icon">🎨</span>
+        <span class="text">Artesanías</span>
+      </button>
+    </section>
+
     <!-- Lista de comercios -->
     <div id="lista-comercios"></div>
   `;
-renderSelectorUbicacion();
+
   // ------------------------
-  // Botones generales del home
+  // Selector de ubicación
+  // ------------------------
+  renderSelectorUbicacion();
+
+  // ------------------------
+  // Botón menú hamburguesa
+  // ------------------------
+  const btnRubros = document.getElementById("btn-rubros");
+  if (btnRubros) btnRubros.onclick = () => {
+    menuRubrosAbierto = !menuRubrosAbierto;
+    renderHome(); // vuelve a renderizar con menú abierto/cerrado
+  };
+
+  // ------------------------
+  // Botón "Sumar mi comercio"
   // ------------------------
   const btnSumar = document.getElementById("btn-sumar-comercio");
   if (btnSumar) btnSumar.onclick = sumarMiComercio;
 
-  document.getElementById("btn-rubros").onclick = () => {
-    menuRubrosAbierto = !menuRubrosAbierto;
-    renderHome();
-  };
-
+  // ------------------------
+  // Botón "¿Qué es Calcha?"
+  // ------------------------
   const btnInfo = document.getElementById("btn-info");
-  if (btnInfo) {
-    btnInfo.onclick = () => {
-      vistaActual = "info";
-      history.pushState({ vista: "info" }, "", "#info");
-      renderInfo();
-    };
-  }
-
-  document.querySelectorAll("[data-rubro]").forEach(b => {
-  b.onclick = () => {
-    rubroActivo = b.dataset.rubro;
-    menuRubrosAbierto = false;
-
-    history.pushState(
-      { vista: "home", rubro: rubroActivo },
-      "",
-      "#rubro-" + rubroActivo
-    );
-
-    renderHome();
+  if (btnInfo) btnInfo.onclick = () => {
+    vistaActual = "info";
+    history.pushState({ vista: "info" }, "", "#info");
+    renderInfo();
   };
-});
+
+  // ------------------------
+  // Botones de rubros
+  // ------------------------
+  document.querySelectorAll(".rubro-btn").forEach(b => {
+    b.onclick = () => {
+      rubroActivo = b.dataset.rubro;
+      menuRubrosAbierto = false;
+      history.pushState({ vista: "home", rubro: rubroActivo }, "", "#rubro-" + rubroActivo);
+      renderHome();
+    };
+  });
 
   // ------------------------
   // Renderizar lista de comercios
   // ------------------------
   const lista = document.getElementById("lista-comercios");
-lista.innerHTML = "";
-const filtrados = obtenerComerciosVisibles();
-
+  lista.innerHTML = "";
+  const filtrados = obtenerComerciosVisibles();
   filtrados.forEach(c => {
     const card = document.createElement("div");
     card.className = "card-comercio";
@@ -301,7 +296,6 @@ const filtrados = obtenerComerciosVisibles();
       <p>${c.descripcion}</p>
       <button>Ver</button>
     `;
-
     card.querySelector("button").onclick = () => {
       comercioActivo = c;
       carrito = [];
@@ -331,29 +325,24 @@ const filtrados = obtenerComerciosVisibles();
           break;
       }
     };
-
     lista.appendChild(card);
   });
 
   // ------------------------
-  // Autocomplete / Búsqueda con scroll tipo TikTok/Instagram
+  // Búsqueda autocomplete
   // ------------------------
   const inputBusqueda = document.getElementById("input-busqueda");
   const resultados = document.getElementById("resultados-busqueda");
-
   if (inputBusqueda) {
     inputBusqueda.oninput = () => {
       const texto = inputBusqueda.value.trim().toLowerCase();
       resultados.innerHTML = "";
-
       if (texto === "") return;
-     const lista = document.getElementById("lista-comercios");
-     lista.innerHTML = "";
+      lista.innerHTML = "";
       const filtrados = obtenerComerciosVisibles().filter(c =>
-  c.nombre.toLowerCase().includes(texto) ||
-  c.descripcion.toLowerCase().includes(texto)
-);
-
+        c.nombre.toLowerCase().includes(texto) ||
+        c.descripcion.toLowerCase().includes(texto)
+      );
       filtrados.forEach(c => {
         const div = document.createElement("div");
         const regex = new RegExp(`(${texto})`, "gi");
@@ -373,7 +362,6 @@ const filtrados = obtenerComerciosVisibles();
       });
     };
 
-    // Cerrar resultados si haces click fuera
     document.addEventListener("click", e => {
       if (!e.target.closest(".buscador")) {
         resultados.innerHTML = "";
