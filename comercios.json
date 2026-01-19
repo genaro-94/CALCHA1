@@ -71,7 +71,7 @@
     "id": 3,
     "nombre": "Ferretería El Martillo",
     "rubro": "servicios",
-    "ubicacion": "santa-maria",
+    "ubicacion": "santa maria",
     "descripcion": "Todo para el hogar, herramientas y materiales.",
     "imagen": "images/Pika.jpeg",
     "tipoOperacion": "pedido",
