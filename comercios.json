@@ -50,9 +50,11 @@
     "tipoOperacion": "pedido",
     "permiteDelivery": false,
     "menu": [
-      { "nombre": "ocarinas chicas", "precio": 10000 },
-      { "nombre": "ocarinas medianas", "precio": 15000 },
-      { "nombre": "llamitas portasahumerios", "precio": 8000 }
+      { "categoria": "ceramica", "nombre": "ocarinas chicas", "precio": 10000 },
+       { "categoria": "ceramica",
+         "nombre": "ocarinas medianas",
+       "precio": 15000},
+      { "categoria": "ceramica","nombre": "llamitas portasahumerios", "precio": 8000 }
     ],
     "galeria": ["images/Oca1.jpg",
     "images/oca2.jpg",
