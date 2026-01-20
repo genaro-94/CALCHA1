@@ -382,7 +382,8 @@ comercioActivo.menu.forEach((item, i) => {
     app.innerHTML = `
       <button class="btn-volver">← Volver</button>
 
-      <img src="${comercioActivo.imagen}" class="comercio-img">
+      <img src="${comercioActivo.imagen}" class="comercio-img"
+      class="comercio-portada">
 
       <h2>${comercioActivo.nombre}</h2>
       <p>${comercioActivo.descripcion}</p>
