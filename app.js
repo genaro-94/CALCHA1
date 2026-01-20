@@ -121,10 +121,37 @@ function renderHome() {
       <div id="resultados-busqueda"></div>
     </div>
 
-    <section class="rubros-grid">
-      ${["gastronomia","turismo","almacen","servicios","ropa","artesanias"]
-        .map(r => `<button data-rubro="${r}">${r}</button>`).join("")}
-    </section>
+  <section class="rubros-grid">
+  <button class="rubro-btn" data-rubro="gastronomia">
+    <span class="icon">🍽️</span>
+    <span class="text">Gastronomía</span>
+  </button>
+
+  <button class="rubro-btn" data-rubro="turismo">
+    <span class="icon">🏨⛰️</span>
+    <span class="text">Turismo</span>
+  </button>
+
+  <button class="rubro-btn" data-rubro="almacen">
+    <span class="icon">🛒</span>
+    <span class="text">Almacén</span>
+  </button>
+
+  <button class="rubro-btn" data-rubro="servicios">
+    <span class="icon">🛠️</span>
+    <span class="text">Servicios</span>
+  </button>
+
+  <button class="rubro-btn" data-rubro="ropa">
+    <span class="icon">🛍️</span>
+    <span class="text">Ropa</span>
+  </button>
+
+  <button class="rubro-btn" data-rubro="artesanias">
+    <span class="icon">🎨</span>
+    <span class="text">Artesanías</span>
+  </button>
+</section>
 
     <div id="lista-comercios"
     class="lista-comercios"></div>
