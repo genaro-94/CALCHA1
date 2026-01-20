@@ -152,7 +152,7 @@ function renderHome() {
     <span class="text">Ropa y accesorios</span>
   </button>
 
-  <<button class="rubro-btn" data-rubro="todos">
+  <button class="rubro-btn" data-rubro="todos">
   <span class="icon">🎨👟🍔</span>
   <span class="text">Todos</span>
 </button>
