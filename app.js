@@ -252,12 +252,25 @@ renderSelectorUbicacion();
   // ------------------------
   // Botones generales del home
   // ------------------------
-  document.getElementById("btn-rubros").onclick = () => {
-    menuRubrosAbierto = !menuRubrosAbierto;
-    renderHome();
-  };
+  // 1️⃣ Botón hamburguesa
+document.getElementById("btn-rubros").onclick = () => {
+  menuRubrosAbierto = !menuRubrosAbierto;
+  renderHome();
+};
 
-  document.querySelectorAll("[data-rubro]").forEach(b => {
+// 2️⃣ Overlay (solo si existe)
+const overlay = document.getElementById("menu-overlay");
+if (overlay) {
+  overlay.onclick = (e) => {
+    if (!e.target.closest(".acciones")) {
+      menuRubrosAbierto = false;
+      renderHome();
+    }
+  };
+}
+
+// 3️⃣ Botones de rubro
+document.querySelectorAll("[data-rubro]").forEach(b => {
   b.onclick = () => {
     rubroActivo = b.dataset.rubro;
     menuRubrosAbierto = false;
