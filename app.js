@@ -210,7 +210,8 @@ function renderListaComercios() {
 card.className = "card-comercio";
 
 card.innerHTML = `
-  <img src="${c.imagen}" alt="${c.nombre}">
+  <img src="${c.imagen}" alt="${c.nombre}"
+  class="comercio-portada">
   <div class="info">
     <h3>${c.nombre}</h3>
     <p>${c.descripcion}</p>
