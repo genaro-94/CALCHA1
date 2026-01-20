@@ -555,7 +555,7 @@ function crearLightbox() {
 
   const div = document.createElement("div");
   div.id = "lightbox";
-  div.className = "hidden";
+  div.className = "lightbox hidden";  
   div.innerHTML = `<img id="lightbox-img">`;
   document.body.appendChild(div);
 }
