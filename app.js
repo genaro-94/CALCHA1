@@ -19,8 +19,7 @@ let direccionEntrega = "";
 let comercios = [];
 let app = null;
 let lightbox;
-let fotosActuales = [];
-let indiceFoto = 0;
+
 
 const WHATSAPP_ADMIN = "5493875181644";
 const tiposOperacion = ["pedido", "reserva", "info", "mixto"];
@@ -724,7 +723,8 @@ function activarBusqueda() {
 // =========================
 
 let lightboxDiv = null;
-
+let fotosActuales = [];
+let indiceFoto = 0;
 // Abrir imagen en lightbox
 function abrirLightbox(src, fotos) {
   fotosActuales = fotos || [src];
