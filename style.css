@@ -375,14 +375,14 @@ z-index: 1000;
 
 
 /* LOGO */
-..logo-fijo {
+.logo-fijo {
   position: fixed;
-  top: 12px;
-  left: 12px;
+  top: 10px;
+  left: 10px;
 
-  height: 36px;        /* 👈 tamaño controlado */
-  width: auto;         /* mantiene proporción */
-  max-width: 120px;    /* seguridad */
+  height: 32px !important;   /* 👈 tamaño típico de app */
+  width: auto !important;
+  max-width: 32px !important;
 
-  z-index: 900;
+  z-index: 999;
 }
