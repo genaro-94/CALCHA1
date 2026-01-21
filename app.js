@@ -501,10 +501,6 @@ function renderInfoComercio() {
   document.querySelector(".btn-volver").onclick = () => history.back();
 }
 
-  document.querySelector(".btn-volver").onclick = () => history.back();
-  
-}
-
 function renderReserva() {
   if (!comercioActivo) return volverHome();
 
