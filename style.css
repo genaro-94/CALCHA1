@@ -425,5 +425,5 @@ z-index: 1000;
   position: fixed;  /* cambia de absolute a fixed */
   top: 10px;
   left: 10px;
-  z-index: 1000;
+  z-index: 2000;;
 }
