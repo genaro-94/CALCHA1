@@ -143,5 +143,47 @@
   "whatsapp": "3868404422",
   "estado": "activo",
   "destacado": false
+},
+{
+  "id": 20,
+  "nombre": "genaro",
+  "rubro": "motodelivery",
+  "ubicacion": "cafayate",
+  "descripcion": "Zona: centro . Horarios: 10 a 14 hs y 18 a 23 hs.",
+  "imagen": "images/delibey.jpg",
+  "tipoOperacion": "info",
+  "menu": [],
+  "galerias": {},
+  "whatsapp": "3874001122",
+  "estado": "activo",
+  "destacado": true
+},
+{
+  "id": 21,
+  "nombre": "Moto Express Santa María",
+  "rubro": "motodelivery",
+  "ubicacion": "santa maria",
+  "descripcion": "Zona: Santa María. Disponible todos los días de 9 a 22 hs.",
+  "imagen": "images/moto-santamaria.jpg",
+  "tipoOperacion": "info",
+  "menu": [],
+  "galerias": {},
+  "whatsapp": "3868409988",
+  "estado": "activo",
+  "destacado": false
+},
+{
+  "id": 22,
+  "nombre": "Delivery El Valle",
+  "rubro": "motodelivery",
+  "ubicacion": "amaicha",
+  "descripcion": "Zona: Amaicha del Valle. Horarios flexibles, coordinar por WhatsApp.",
+  "imagen": "images/moto-amaicha.jpg",
+  "tipoOperacion": "info",
+  "menu": [],
+  "galerias": {},
+  "whatsapp": "3868405566",
+  "estado": "activo",
+  "destacado": false
 }
 ]
