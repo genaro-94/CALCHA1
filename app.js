@@ -165,7 +165,12 @@ function renderHome() {
     <div id="lista-comercios"
     class="lista-comercios"></div>
   `;
+const subtitulo = app.querySelector(".subtitulo");
 
+if (subtitulo && rubroActivo === "motodelivery") {
+  subtitulo.innerText =
+    "Moto delivery particulares – coordiná directo con el conductor";
+}
   document.getElementById("btn-menu").onclick = () => {
     vistaActual = "menu";
     history.pushState({ vista: "menu" }, "", "#menu");
@@ -271,10 +276,19 @@ function activarRubros() {
 }
 
 function obtenerComerciosVisibles() {
-  return comercios.filter(c =>
-    (rubroActivo === "todos" || c.rubro === rubroActivo) &&
-    (!ubicacionActiva || c.ubicacion === ubicacionActiva)
-  );
+  let lista = comercios;
+
+  // 1. Ocultar moto delivery en el home general
+  if (!rubroActivo || rubroActivo === "todos") {
+    lista = lista.filter(c => c.rubro !== "motodelivery");
+  }
+
+  // 2. Si hay rubro seleccionado, filtrar por rubro
+  if (rubroActivo && rubroActivo !== "todos") {
+    lista = lista.filter(c => c.rubro === rubroActivo);
+  }
+
+  return lista;
 }
 
 
