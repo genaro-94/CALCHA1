@@ -472,7 +472,6 @@ btnTerminos.addEventListener("click", () => {
   document.querySelector(".btn-volver").onclick = () => history.back();
 }
 
-
 // =========================
 // RESERVA / INFO COMERCIO
 // =========================
@@ -489,7 +488,7 @@ function renderInfoComercio() {
       ? Object.entries(comercioActivo.galerias).map(([categoria, fotos]) => `
           <h3>${categoria}</h3>
           <div class="galeria-comercio">
-            ${fotos.map(img => `<img src="${img}" class="galeria-img" onclick="abrirLightbox('${img}', ${JSON.stringify(fotos)})">`).join("")}
+            ${fotos.map(img => `<img src="${img}" class="galeria-img" data-fotos='${JSON.stringify(fotos)}'>`).join("")}
           </div>
         `).join("")
       : ""
@@ -497,9 +496,12 @@ function renderInfoComercio() {
 
     <button onclick="window.open('https://wa.me/54${comercioActivo.whatsapp}','_blank')">💬 Contactar</button>
   `;
-document.querySelectorAll(".galeria-img").forEach(img => {
-  img.onclick = () => abrirLightbox(img.src, JSON.parse(img.dataset.fotos));
-});
+
+  // Hacer clic en las imágenes de la galería
+  document.querySelectorAll(".galeria-img").forEach(img => {
+    img.onclick = () => abrirLightbox(img.src, JSON.parse(img.dataset.fotos));
+  });
+
   document.querySelector(".btn-volver").onclick = () => history.back();
 }
 
@@ -515,29 +517,31 @@ function renderReserva() {
     <h2>${comercioActivo.nombre}</h2>
     <p>${comercioActivo.descripcion}</p>
 
-${comercioActivo.galerias
-  ? Object.entries(comercioActivo.galerias).map(([categoria, fotos]) => `
-      <h3>${categoria}</h3>
-      <div class="galeria-comercio">
-        ${fotos.map(img => `<img src="${img}" class="galeria-img" data-fotos='${JSON.stringify(fotos)}'>`).join("")}
-      </div>
-    `).join("")
-  : ""
-}
+    ${comercioActivo.galerias
+      ? Object.entries(comercioActivo.galerias).map(([categoria, fotos]) => `
+          <h3>${categoria}</h3>
+          <div class="galeria-comercio">
+            ${fotos.map(img => `<img src="${img}" class="galeria-img" data-fotos='${JSON.stringify(fotos)}'>`).join("")}
+          </div>
+        `).join("")
+      : ""
+    }
 
     <button onclick="window.open('${urlReserva}','_blank')">📅 Reservar</button>
     <button onclick="window.open('https://wa.me/54${comercioActivo.whatsapp}','_blank')">💬 Contactar</button>
   `;
-  document.querySelectorAll(".galeria-img").forEach(img => {
-  img.onclick = () => abrirLightbox(img.src, JSON.parse(img.dataset.fotos));
-});
-  document.querySelector(".btn-volver").onclick = () => history.back();                                                                                               }
 
+  // Hacer clic en las imágenes de la galería
+  document.querySelectorAll(".galeria-img").forEach(img => {
+    img.onclick = () => abrirLightbox(img.src, JSON.parse(img.dataset.fotos));
+  });
+
+  document.querySelector(".btn-volver").onclick = () => history.back();
+}
 
 // =========================
 // PEDIDO / CONFIRMAR
 // =========================
-
 function renderPedido() {
   if (!comercioActivo) return renderHome();
 
@@ -576,7 +580,7 @@ function renderPedido() {
       ? Object.entries(comercioActivo.galerias).map(([categoria, fotos]) => `
           <h3>${categoria}</h3>
           <div class="galeria-comercio">
-            ${fotos.map(img => `<img src="${img}" class="galeria-img" onclick="abrirLightbox('${img}', ${JSON.stringify(fotos)})">`).join("")}
+            ${fotos.map(img => `<img src="${img}" class="galeria-img" data-fotos='${JSON.stringify(fotos)}'>`).join("")}
           </div>
         `).join("")
       : ""
@@ -599,60 +603,56 @@ function renderPedido() {
       </button>
     </div>
   `;
+
+  // Hacer clic en las imágenes de la galería
   document.querySelectorAll(".galeria-img").forEach(img => {
-  img.onclick = () => abrirLightbox(img.src, JSON.parse(img.dataset.fotos));
-});
-    // ------------------------
-    // Eventos
-    // ------------------------
-    document.querySelector(".btn-volver").onclick = () => history.back();
+    img.onclick = () => abrirLightbox(img.src, JSON.parse(img.dataset.fotos));
+  });
 
-    document.querySelectorAll("[data-a]").forEach(b => {
-      b.onclick = () => {
-        const prod = comercioActivo.menu[b.dataset.i];
-        const ex = carrito.find(p => p.nombre === prod.nombre);
-        if (b.dataset.a === "sumar") {
-          if (ex) ex.cantidad++;
-          else carrito.push({ ...prod, cantidad: 1 });
-        }
-        if (b.dataset.a === "restar" && ex) {
-          ex.cantidad--;
-          if (ex.cantidad === 0) carrito = carrito.filter(p => p !== ex);
-        }
-        renderPedido();
-      };
-    });
+  // ------------------------
+  // Eventos
+  // ------------------------
+  document.querySelector(".btn-volver").onclick = () => history.back();
 
-    document.getElementById("retiro").onclick = () => {
-      tipoEntrega = "retiro";
-      direccionEntrega = "";
+  document.querySelectorAll("[data-a]").forEach(b => {
+    b.onclick = () => {
+      const prod = comercioActivo.menu[b.dataset.i];
+      const ex = carrito.find(p => p.nombre === prod.nombre);
+      if (b.dataset.a === "sumar") {
+        if (ex) ex.cantidad++;
+        else carrito.push({ ...prod, cantidad: 1 });
+      }
+      if (b.dataset.a === "restar" && ex) {
+        ex.cantidad--;
+        if (ex.cantidad === 0) carrito = carrito.filter(p => p !== ex);
+      }
       renderPedido();
     };
+  });
 
-    const btnDel = document.getElementById("delivery");
-    if (btnDel) {
-      btnDel.onclick = () => {
-        tipoEntrega = "delivery";
-        renderPedido();
-      };
-    }
+  document.getElementById("retiro").onclick = () => {
+    tipoEntrega = "retiro";
+    direccionEntrega = "";
+    renderPedido();
+  };
 
-    const dir = document.getElementById("direccion");
-    if (dir) dir.oninput = e => direccionEntrega = e.target.value;
-
-    document.getElementById("continuar").onclick = () => {
-      vistaActual = "confirmar";
-      history.pushState({ vista: "confirmar" }, "", "#confirmar");
-      renderConfirmar();
+  const btnDel = document.getElementById("delivery");
+  if (btnDel) {
+    btnDel.onclick = () => {
+      tipoEntrega = "delivery";
+      renderPedido();
     };
-
-    // ------------------------
-    // Lightbox: hacer clic en miniaturas
-    // ------------------------
-    document.querySelectorAll(".galeria-img").forEach(img => {
-      img.addEventListener("click", () => abrirLightbox(img.src));
-    });
   }
+
+  const dir = document.getElementById("direccion");
+  if (dir) dir.oninput = e => direccionEntrega = e.target.value;
+
+  document.getElementById("continuar").onclick = () => {
+    vistaActual = "confirmar";
+    history.pushState({ vista: "confirmar" }, "", "#confirmar");
+    renderConfirmar();
+  };
+      }
 
   // ------------------------
   // CONFIRMAR
