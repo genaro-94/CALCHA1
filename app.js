@@ -157,8 +157,8 @@ function renderHome() {
   <span class="text">Todos</span>
 </button>
 <button class="rubro-btn" data-rubro="motodelivery">
-  <span class="icon">🛵</span>
-  <span class="text">Moto Delivery</span>
+  <span class="icon">🛵🚲</span>
+  <span class="text">Delivery</span>
 </button>
 </section>
 
