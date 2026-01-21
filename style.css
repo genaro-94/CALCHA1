@@ -363,3 +363,12 @@ z-index: 1000;
   border-radius: 6px;
   font-size: 15px;
 }
+.mensaje-rubro {
+  margin: 12px 0 18px;
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+  background: #fff6e8;
+  color: #8b5a2b;
+  border-radius: 8px;
+}
