@@ -161,7 +161,7 @@ function renderHome() {
   <span class="text">Delivery</span>
 </button>
 </section>
-
+<div id="mensaje-rubro" class="mensaje-rubro"></div>
     <div id="lista-comercios"
     class="lista-comercios"></div>
   `;
