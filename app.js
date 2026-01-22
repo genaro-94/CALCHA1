@@ -769,7 +769,7 @@ function cerrarLightbox() {
       comercioActivo = null;
     }
     renderApp();
-});
+}
 
 // Activar click en galería
 function activarGaleria() {
