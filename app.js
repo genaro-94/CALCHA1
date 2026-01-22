@@ -721,36 +721,65 @@ function activarBusqueda() {
 
 
 // =========================
-// LIGHTBOX SIMPLE (estable)
+// LIGHTBOX CON GALERÍA ◀ ▶
 // =========================
 let lightboxDiv = null;
+let lightboxFotos = [];
+let lightboxIndex = 0;
 
-function abrirLightbox(src) {
+function abrirLightbox(src, fotos = []) {
+  lightboxFotos = fotos.length ? fotos : [src];
+  lightboxIndex = lightboxFotos.indexOf(src);
+  if (lightboxIndex === -1) lightboxIndex = 0;
+
   if (!lightboxDiv) {
     lightboxDiv = document.createElement("div");
     lightboxDiv.className = "lightbox";
     lightboxDiv.innerHTML = `
       <span class="lightbox-close">✖</span>
+      <span class="lightbox-prev">◀</span>
       <img class="lightbox-img">
+      <span class="lightbox-next">▶</span>
     `;
     document.body.appendChild(lightboxDiv);
 
-    // cerrar con botón
     lightboxDiv.querySelector(".lightbox-close").onclick = cerrarLightbox;
 
-    // cerrar tocando fondo
+    lightboxDiv.querySelector(".lightbox-prev").onclick = e => {
+      e.stopPropagation();
+      moverLightbox(-1);
+    };
+
+    lightboxDiv.querySelector(".lightbox-next").onclick = e => {
+      e.stopPropagation();
+      moverLightbox(1);
+    };
+
     lightboxDiv.onclick = e => {
       if (e.target === lightboxDiv) cerrarLightbox();
     };
+
+    lightboxDiv.querySelector(".lightbox-img").onclick = e => {
+      e.stopPropagation();
+    };
   }
-  lightboxDiv.querySelector(".lightbox-img").onclick = e => {
-  e.stopPropagation();
-};
 
-  const img = lightboxDiv.querySelector(".lightbox-img");
-  img.src = src;
-
+  actualizarLightbox();
   lightboxDiv.style.display = "flex";
+}
+
+function moverLightbox(dir) {
+  lightboxIndex += dir;
+
+  if (lightboxIndex < 0) lightboxIndex = lightboxFotos.length - 1;
+  if (lightboxIndex >= lightboxFotos.length) lightboxIndex = 0;
+
+  actualizarLightbox();
+}
+
+function actualizarLightbox() {
+  const img = lightboxDiv.querySelector(".lightbox-img");
+  img.src = lightboxFotos[lightboxIndex];
 }
 
 function cerrarLightbox() {
@@ -758,7 +787,6 @@ function cerrarLightbox() {
     lightboxDiv.style.display = "none";
   }
 }
-
 // Activar click en galería
 function activarGaleria() {
   document.querySelectorAll(".galeria-comercio").forEach(galeria => {
