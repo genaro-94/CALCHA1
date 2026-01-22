@@ -705,7 +705,7 @@ function activarBusqueda() {
     if (!t) return;
 
     comercios
-      .filter(c => !ubicacionActiva || c.ubicacion === ubicacionActiva) // solo filtra por ubicación
+      .filter(c => !ubicacionActiva || c.ubicacion === ubicacionActiva) // filtra por ubicación
       .filter(c => {
         return (
           c.nombre.toLowerCase().includes(t) ||
@@ -714,25 +714,32 @@ function activarBusqueda() {
         );
       })
       .forEach(c => {
-        const d = document.createElement("div");
+        const card = document.createElement("div");
+        card.classList.add("card-resultado");
 
         // Resaltado solo en el nombre
         const regex = new RegExp(`(${t})`, "gi");
         const nombreResaltado = c.nombre.replace(regex, `<mark>$1</mark>`);
 
-        d.innerHTML = `
-          <strong class="busqueda-nombre">${nombreResaltado}</strong>
-          <small class="busqueda-rubro">${c.rubro}</small>
+        card.innerHTML = `
+          <div class="card-img">
+            <img src="${c.imagen || 'images/default.jpg'}" alt="${c.nombre}">
+          </div>
+          <div class="card-info">
+            <strong class="busqueda-nombre">${nombreResaltado}</strong>
+            <small class="busqueda-rubro">${c.rubro}</small>
+            <small class="busqueda-zona">Zona: ${c.ubicacion || 'No especificada'}</small>
+          </div>
         `;
 
-        d.onclick = () => {
+        card.onclick = () => {
           comercioActivo = c;
           vistaActual = "pedido";
           history.pushState({ vista: "pedido", comercioId: c.id }, "", "#pedido");
           renderPedido();
         };
 
-        resultados.appendChild(d);
+        resultados.appendChild(card);
       });
   };
 }
