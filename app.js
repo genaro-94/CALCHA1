@@ -759,20 +759,6 @@ function cerrarLightbox() {
   }
 }
 
-window.addEventListener("popstate", e => {
-    // Manejo normal de vistas
-    const s = e.state || { vista: "home" };
-    vistaActual = s.vista || "home";
-    rubroActivo = s.rubro ?? rubroActivo;
-    ubicacionActiva = s.ubicacion ?? ubicacionActiva;
-    if (s.comercioId) {
-      comercioActivo = comercios.find(c => c.id === s.comercioId) || null;
-    } else {
-      comercioActivo = null;
-    }
-    renderApp();
-
-
 // Activar click en galería
 function activarGaleria() {
   document.querySelectorAll(".galeria-comercio").forEach(galeria => {
