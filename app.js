@@ -704,17 +704,39 @@ function activarBusqueda() {
 
     if (!t) return;
 
-    obtenerComerciosVisibles()
-      .filter(c => c.nombre.toLowerCase().includes(t))
+    // Filtramos todos los comercios
+    comercios
+      .filter(c => !ubicacionActiva || c.ubicacion === ubicacionActiva) // solo filtra por ubicación si hay
+      .filter(c => {
+        return (
+          c.nombre.toLowerCase().includes(t) ||
+          c.rubro.toLowerCase().includes(t) ||
+          (c.descripcion && c.descripcion.toLowerCase().includes(t))
+        );
+      })
       .forEach(c => {
         const d = document.createElement("div");
-        d.textContent = c.nombre;
+
+        // Función para resaltar texto buscado
+        const resaltar = (text) => {
+          const regex = new RegExp(`(${t})`, "gi"); // g = global, i = case-insensitive
+          return text.replace(regex, `<mark>$1</mark>`);
+        };
+
+        // Creamos el contenido del div con resalte
+        d.innerHTML = `
+          <strong>${resaltar(c.nombre)}</strong><br>
+          <small>${resaltar(c.rubro)}</small><br>
+          <span>${c.descripcion ? resaltar(c.descripcion) : ""}</span>
+        `;
+
         d.onclick = () => {
           comercioActivo = c;
           vistaActual = "pedido";
           history.pushState({ vista: "pedido", comercioId: c.id }, "", "#pedido");
           renderPedido();
         };
+
         resultados.appendChild(d);
       });
   };
