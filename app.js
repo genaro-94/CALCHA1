@@ -866,7 +866,7 @@ function abrirLightbox(src, fotos = []) {
   comercioId: comercioActivo?.id ?? null,
   lightbox: true
 }, "", "");
-
+}
 function moverLightbox(dir) {
   lightboxIndex += dir;
   if (lightboxIndex < 0) lightboxIndex = lightboxFotos.length - 1;
