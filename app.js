@@ -727,33 +727,36 @@ function renderPedido() {
   }
 
 function renderLinksComercio(c) {
+function renderLinksComercio(comercio) {
+  if (!comercio.links) return "";
+
   let html = `<div class="comercio-links">`;
 
-  if (c.maps) {
+  if (comercio.links.maps) {
     html += `
-      <a href="${c.maps}" target="_blank" class="icon-link">
-        <img src="images/mapslogo.png" alt="Cómo llegar">
+      <a href="${comercio.links.maps}" target="_blank" class="icon-link">
+        <img src="images/maps.png" alt="Cómo llegar">
       </a>`;
   }
 
-  if (c.instagram) {
+  if (comercio.links.instagram) {
     html += `
-      <a href="${c.instagram}" target="_blank" class="icon-link">
-        <img src="images/instagramlogo.png" alt="Instagram">
+      <a href="${comercio.links.instagram}" target="_blank" class="icon-link">
+        <img src="images/instagram.png" alt="Instagram">
       </a>`;
   }
 
-  if (c.facebook) {
+  if (comercio.links.facebook) {
     html += `
-      <a href="${c.facebook}" target="_blank" class="icon-link">
-        <img src="images/facebooklogo.png" alt="Facebook">
+      <a href="${comercio.links.facebook}" target="_blank" class="icon-link">
+        <img src="images/facebook.png" alt="Facebook">
       </a>`;
   }
 
-  if (c.whatsapp) {
+  if (comercio.links.whatsapp) {
     html += `
-      <a href="https://wa.me/54${c.whatsapp}" target="_blank" class="icon-link">
-        <img src="images/whatsapplogo.png" alt="WhatsApp">
+      <a href="${comercio.links.whatsapp}" target="_blank" class="icon-link">
+        <img src="images/whatsapp.png" alt="WhatsApp">
       </a>`;
   }
 
