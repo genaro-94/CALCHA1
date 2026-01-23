@@ -699,7 +699,42 @@ function renderPedido() {
     document.querySelector(".btn-volver").onclick = () => history.back();
   }
 
+function renderLinksComercio(comercio) {
+  if (!comercio.links) return "";
 
+  let html = `<div class="comercio-links">`;
+
+  if (comercio.links.maps) {
+    html += `
+      <a href="${comercio.links.maps}" target="_blank" class="icon-link">
+        <img src="images/mapslogo.png" alt="Cómo llegar">
+      </a>`;
+  }
+
+  if (comercio.links.instagram) {
+    html += `
+      <a href="${comercio.links.instagram}" target="_blank" class="icon-link">
+        <img src="images/instagramlogo.png" alt="Instagram">
+      </a>`;
+  }
+
+  if (comercio.links.facebook) {
+    html += `
+      <a href="${comercio.links.facebook}" target="_blank" class="icon-link">
+        <img src="images/facebooklogo.png" alt="Facebook">
+      </a>`;
+  }
+
+  if (comercio.links.whatsapp) {
+    html += `
+      <a href="${comercio.links.whatsapp}" target="_blank" class="icon-link">
+        <img src="images/whatsapplogo.png" alt="WhatsApp">
+      </a>`;
+  }
+
+  html += `</div>`;
+  return html;
+}
 // =========================
 // BÚSQUEDA
 // =========================
