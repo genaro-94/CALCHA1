@@ -116,9 +116,9 @@ function renderHome() {
   app.innerHTML = `
   <div class="home-header">
       <img src="images/Logo.png" alt="Calcha" class="logo-calcha">
-    <h1 class="titulo">CALCHA</h1>
-<p class="subtitulo">El mercado vallista en tu mano</p>
-
+    <div class="header-logo">
+  <img src="images/calcha.png" alt="Calcha Market" />
+</div>
     <button id="btn-menu">☰</button>
 
     <div id="selector-ubicacion"></div>
