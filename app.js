@@ -881,6 +881,12 @@ function actualizarLightbox() {
 function cerrarLightbox() {
   if (lightboxDiv) {
     lightboxDiv.style.display = "none";
+    // Limpiar lightbox del history actual sin romper otras vistas
+    if (history.state?.lightbox) {
+      const newState = { ...history.state };
+      delete newState.lightbox;
+      history.replaceState(newState, "");
+    }
   }
 }
 
