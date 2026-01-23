@@ -815,7 +815,7 @@ function activarBusqueda() {
   };
 }
 // =========================
-// LIGHTBOX CON GALERÍA ◀ ▶
+// LIGHTBOX
 // =========================
 let lightboxDiv = null;
 let lightboxFotos = [];
@@ -837,43 +837,40 @@ function abrirLightbox(src, fotos = []) {
     `;
     document.body.appendChild(lightboxDiv);
 
+    // Cerrar lightbox con X o click fuera
     lightboxDiv.querySelector(".lightbox-close").onclick = cerrarLightbox;
+    lightboxDiv.onclick = e => {
+      if (e.target === lightboxDiv) cerrarLightbox();
+    };
+    lightboxDiv.querySelector(".lightbox-img").onclick = e => e.stopPropagation();
 
+    // Navegación dentro de la lightbox
     lightboxDiv.querySelector(".lightbox-prev").onclick = e => {
       e.stopPropagation();
       moverLightbox(-1);
     };
-
     lightboxDiv.querySelector(".lightbox-next").onclick = e => {
       e.stopPropagation();
       moverLightbox(1);
-    };
-
-    lightboxDiv.onclick = e => {
-      if (e.target === lightboxDiv) cerrarLightbox();
-    };
-
-    lightboxDiv.querySelector(".lightbox-img").onclick = e => {
-      e.stopPropagation();
     };
   }
 
   actualizarLightbox();
   lightboxDiv.style.display = "flex";
+
+  // 🔹 Integración con historial
+  history.pushState({ ...history.state, lightbox: true }, "", "");
 }
 
 function moverLightbox(dir) {
   lightboxIndex += dir;
-
   if (lightboxIndex < 0) lightboxIndex = lightboxFotos.length - 1;
   if (lightboxIndex >= lightboxFotos.length) lightboxIndex = 0;
-
   actualizarLightbox();
 }
 
 function actualizarLightbox() {
-  const img = lightboxDiv.querySelector(".lightbox-img");
-  img.src = lightboxFotos[lightboxIndex];
+  lightboxDiv.querySelector(".lightbox-img").src = lightboxFotos[lightboxIndex];
 }
 
 function cerrarLightbox() {
@@ -881,21 +878,21 @@ function cerrarLightbox() {
     lightboxDiv.style.display = "none";
   }
 }
-// Activar click en galería
+
+// =========================
+// ACTIVAR GALERÍA
+// =========================
 function activarGaleria() {
   document.querySelectorAll(".galeria-comercio").forEach(galeria => {
-    const fotos = Array.from(
-      galeria.querySelectorAll(".galeria-img")
-    ).map(img => img.src);
+    const fotos = Array.from(galeria.querySelectorAll(".galeria-img")).map(img => img.src);
 
     galeria.querySelectorAll(".galeria-img").forEach(img => {
       img.onclick = () => {
-        console.log("CLICK EN IMAGEN", img.src); // 👈 DEBUG
         abrirLightbox(img.src, fotos);
       };
     });
   });
-  }
+}
 
 
 // =========================
