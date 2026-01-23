@@ -341,6 +341,16 @@ function activarUbicaciones() {
 // =========================
 
 function volverHome() {
+  if (vistaActual === "home") {
+    // 👉 ya estás en home → subir arriba
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+    return;
+  }
+
+  // 👉 no estás en home → volver a home
   vistaActual = "home";
   rubroActivo = "todos";
   ubicacionActiva = null;
