@@ -40,9 +40,10 @@
       "llamitas": ["images/llama1.jpg","images/llama2.jpg","images/llama3.jpg","images/llama4.jpg"]
     },
     "whatsapp": "3875181644",
-    "facebook": "https://www.facebook.com/share/1CYRiXKHiW/"
-    "instagram": "https://www.instagram.com/artesanias.greco?igsh=MXB0bXgzOXg4dGd3ag=="
-   "maps": "https://maps.app.goo.gl/WD4y2hmZbXEfcnDVA"
+    "links": {
+    "facebook": "https://www.facebook.com/share/1CYRiXKHiW/",
+    "instagram": "https://www.instagram.com/artesanias.greco?igsh=MXB0bXgzOXg4dGd3ag==",
+   "maps": "https://maps.app.goo.gl/WD4y2hmZbXEfcnDVA",
     "estado": "activo",
     "destacado": false
   },
