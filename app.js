@@ -479,7 +479,7 @@ function renderInfoComercio() {
   if (!comercioActivo) return volverHome();
 
   app.innerHTML = `
-    <button class="btn-volver">← Volver</button>
+    <button class="btn-volver" onclick="volver()">◀️</button>
     <img src="${comercioActivo.imagen}" class="comercio-portada">
     <h2>${comercioActivo.nombre}</h2>
     <p>${comercioActivo.descripcion}</p>
