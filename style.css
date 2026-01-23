@@ -78,10 +78,18 @@ button:disabled {
 }
 
 .btn-volver {
-  background: none;
-  padding: 0;
-  margin-bottom: 14px;
-  color: #7a3e12;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  margin-right: 8px;
+  cursor: pointer;
 }
 
 .btn-home {
