@@ -117,7 +117,7 @@ function renderHome() {
   <div class="home-header">
       <img src="images/Logo.png" alt="Calcha" class="logo-calcha">
     <div class="header-logo">
-  <img src="images/calcha.png" alt="Calcha Market" />
+  <img src="images/calcha1.png" alt="Calcha Market" />
 </div>
     <button id="btn-menu">☰</button>
 
