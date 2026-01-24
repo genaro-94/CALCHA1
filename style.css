@@ -190,8 +190,8 @@ cursor: grab;
   display: block;
 }  
 .accion-btn img {
-  width: 100%;
-  height: 100%;
+  width: 80px;
+  height: 45px;
   object-fit: contain;
 }
 
