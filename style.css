@@ -191,14 +191,14 @@ cursor: grab;
   );
 }
 .rubro-btn img {
-  width: 60px;
-  height: 48px;
+  width: 75px;
+  height: 55px;
   object-fit: cover;
   display: block;
 }  
 .accion-btn img {
-  width: 20px;
-  height: 20px;
+  width: 35px;
+  height: 28px;
   object-fit: contain;
 }
 
@@ -219,8 +219,8 @@ cursor: grab;
 }
 
 .accion-btn {
-  width: 52px;
-  height: 52px;
+  width: 35px;
+  height: 28px;
 
   padding: 6px;
 
