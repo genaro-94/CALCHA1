@@ -874,16 +874,6 @@ function actualizarLightbox() {
   lightboxDiv.querySelector(".lightbox-img").src = lightboxFotos[lightboxIndex];
 }
 
-function cerrarLightbox() {
-  if (lightboxDiv) {
-    lightboxDiv.style.display = "none";
-
-    // 🔹 Volver al estado anterior en el historial si estaba abierto
-    if (history.state?.lightbox) {
-      history.back();
-    }
-  }
-}
 
 // =========================
 // ACTIVAR GALERÍA
