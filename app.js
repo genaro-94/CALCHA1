@@ -544,8 +544,8 @@ function renderInfoComercio() {
     activarGaleria();
   }
 
-  document.querySelector(".btn-volver").onclick = () => {
-  vistaActual = "home";
+  document.querySelector(".btn-volver").onclick = ()=> history.back();
+}
   renderHome();
 };
 }
