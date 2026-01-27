@@ -261,6 +261,7 @@ cursor: grab;
 ========================= */
 
 .card-comercio {
+   position: relative;
   background: linear-gradient(180deg, #fff, #faf6f0);
   border-radius: 18px;
   padding: 16px;
@@ -319,7 +320,7 @@ cursor: grab;
   z-index: 1000;
 }
 .comercio-links .icon-link {
-  width: 30ñx;
+  width: 30px;
   height: 30px;
   display: flex;
   align-items: center;
@@ -682,5 +683,5 @@ body {
     #f6efe7 100%
   );
   background-repeat: no-repeat;
-  background-attachment: fixed;
+  background-attachment: scroll;
 }
