@@ -347,6 +347,12 @@ function activarUbicaciones() {
 // =========================
 // BOTÓN HOME
 // =========================
+document.addEventListener("click", (e) => {
+  if (e.target.closest(".btn-home")) {
+    volverHome();
+  }
+});
+
 function volverHome() {
   // 🔹 reset total del estado
   vistaActual = "home";
