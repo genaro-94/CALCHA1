@@ -357,9 +357,9 @@ document.addEventListener("click", (e) => {
 
   if (estoyEnHome && !hayFiltros) {
     // 👉 solo subir al inicio
-    app.scrollTo({
-      top: 0,
-      behavior: "smooth"
+    window.scrollTo({
+  top: 0,
+  behavior: "smooth"
     });
     return;
   }
