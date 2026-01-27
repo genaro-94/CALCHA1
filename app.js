@@ -294,23 +294,29 @@ function activarRubros() {
 function obtenerComerciosVisibles() {
   let lista = comercios;
 
-  // 1️⃣ Ocultar moto delivery en el home general
-  if (!rubroActivo || rubroActivo === "todos") {
+
+  const estamosEnHome = vistaActual === "home";
+
+
+  if (
+    !estamosEnHome &&
+    (!rubroActivo || rubroActivo === "todos")
+  ) {
     lista = lista.filter(c => c.rubro !== "motodelivery");
   }
 
-  // 2️⃣ Filtrar por rubro
+
   if (rubroActivo && rubroActivo !== "todos") {
     lista = lista.filter(c => c.rubro === rubroActivo);
   }
 
-  // 3️⃣ Filtrar por ubicación (CLAVE)
+
   if (ubicacionActiva) {
     lista = lista.filter(c => c.ubicacion === ubicacionActiva);
   }
 
   return lista;
-}
+    }
 
 // =========================
 // UBICACIÓN
