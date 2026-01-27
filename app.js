@@ -742,7 +742,7 @@ function renderPedido() {
     if (tipoEntrega === "delivery") msg += `\nDirección: ${direccionEntrega}`;
 
     app.innerHTML = `
-      <button class="btn-volver">← Volver</button>
+      <button class="btn-volver">←</button>
       <h2>Confirmar pedido</h2>
 
       <div class="resumen">${resumen}</div>
