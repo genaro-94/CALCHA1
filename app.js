@@ -113,7 +113,7 @@ function cargarComercios() {
 
 function renderHome() {
   vistaActual = "home";
-
+rubroActivo = "todos";
   app.innerHTML = `
   <div class="home-header">
       <img src="images/Logo.png" alt="Calcha" class="logo-calcha">
