@@ -8,6 +8,7 @@
 // =========================
 
 let vistaActual = "home";
+let modoListado = "home"; 
 let ubicacionActiva = null;
 let rubroActivo = "todos";
 let comercioActivo = null;
@@ -292,22 +293,28 @@ function activarRubros() {
 }
 
 function obtenerComerciosVisibles() {
-  let lista = comercios;
+  let lista = [...comercios];
 
+  // =========================
+  // HOME → solo destacados
+  // =========================
+  if (modoListado === "home") {
+    return lista.filter(c => c.destacado);
+  }
 
-  const estamosEnHome = vistaActual === "home";
+  
+  if (modoListado === "delivery") {
+    lista = lista.filter(c => c.rubro === "motodelivery");
+  }
 
-
-  if (
-    !estamosEnHome &&
-    (!rubroActivo || rubroActivo === "todos")
-  ) {
-    lista = lista.filter(c => c.rubro !== "motodelivery");
+  
+  if (modoListado === "rubro") {
+    lista = lista.filter(c => c.rubro === rubroActivo);
   }
 
 
-  if (rubroActivo && rubroActivo !== "todos") {
-    lista = lista.filter(c => c.rubro === rubroActivo);
+  if (modoListado === "todos") {
+    lista = lista.filter(c => c.rubro !== "motodelivery");
   }
 
 
@@ -315,8 +322,11 @@ function obtenerComerciosVisibles() {
     lista = lista.filter(c => c.ubicacion === ubicacionActiva);
   }
 
+  /
+  lista.sort((a, b) => (b.destacado === true) - (a.destacado === true));
+
   return lista;
-    }
+}
 
 // =========================
 // UBICACIÓN
