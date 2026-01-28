@@ -71,7 +71,7 @@ setInterval(() => {
   if (vistaActual === "home") {
     renderApp();
   }
-}, 60000);
+}, 150000);
 // =========================
 // HISTORIAL / BACK FÍSICO
 // =========================
