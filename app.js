@@ -335,32 +335,34 @@ card.onclick = () => {
 // =========================
 // horarios
 // =========================
-function estadoComercio(comercio) {
+function estadoComercio(c) {
+  const dias = ["dom","lun","mar","mie","jue","vie","sab"];
   const ahora = new Date();
-  const dia = ["dom","lun","mar","mie","jue","vie","sab"][ahora.getDay()];
-  const horaActual = ahora.getHours() * 60 + ahora.getMinutes();
+  const diaHoy = dias[ahora.getDay()];
+  const horaActual = ahora.getHours();
+  const minActual = ahora.getMinutes();
+  const totalMinutos = horaActual * 60 + minActual;
 
-  const tramos = comercio.horarios?.[dia];
-  if (!tramos || tramos.length === 0) return "cerrado";
+  const horarios = c[diaHoy];
+  if (!horarios || horarios.length === 0) return "cerrado";
 
-  for (const tramo of tramos) {
-    let [inicio, fin] = tramo.split("-");
-    let [hi, mi] = inicio.split(":").map(Number);
-    let [hf, mf] = fin.split(":").map(Number);
+  for (let r of horarios) {
+    let [inicio, fin] = r.split("-").map(t => {
+      const [h,m] = t.split(":").map(Number);
+      return h*60 + m;
+    });
 
-    let inicioMin = hi * 60 + mi;
-    let finMin = hf * 60 + mf;
+    // Si fin < inicio, significa que pasa la medianoche
+    if (fin <= inicio) fin += 24*60;
 
-    // cruza medianoche
-    if (finMin < inicioMin) finMin += 1440;
+    // Si la hora actual es menor que inicio, también sumamos 24 para comparaciones nocturnas
+    let ahoraComparar = totalMinutos;
+    if (totalMinutos < inicio && fin > 24*60) ahoraComparar += 24*60;
 
-    if (horaActual >= inicioMin && horaActual <= finMin) {
-      // cierra pronto?
-      if (finMin - horaActual <= 30) return "cierra-pronto";
-      return "abierto";
+    if (ahoraComparar >= inicio && ahoraComparar <= fin) {
+      return fin - ahoraComparar <= 30 ? "cierra-pronto" : "abierto";
     }
   }
-
   return "cerrado";
 }
 // =========================
